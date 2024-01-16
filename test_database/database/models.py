@@ -5,6 +5,8 @@ from django.shortcuts import render
 
 # Create your models here.
 
+from django.db import models
+
 class Project(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -32,3 +34,4 @@ class Architecture(models.Model):
 
     def __str__(self):
         return f"{self.project.id}-{self.name}"
+
