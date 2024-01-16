@@ -6,7 +6,6 @@ from django.shortcuts import render
 # Create your models here.
 
 class Project(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField()
     description = models.TextField()
     start_date = models.TimeField()
@@ -16,22 +15,22 @@ class Project(models.Model):
         return self.name
     
 class Construction(models.Model):
-    id = models.AutoField(primary_key=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     site_name = models.CharField()
     in_charge = models.CharField()
-    construction_id = models.AutoField(primary_key=True)
-
-    def __str__(self):
-        return f"{self.project.id} - Construction"
+    construction_id = models.OneToManyField(Project, related_name='project_construction_id')
     
+    def __str__(self):
+        return f"{self.id} - {self.name}"
 
 class Architecture(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField()
     design = models.CharField()
     area = models.FloatField()
     height = models.IntegerField()
     floor = models.IntegerField()
-    architecture_id = models.AutoField(primary_key=True)
+    architecture_id = models.OneToManyField(Project, related_name='project_architecture_id')
+
+    def __str__(self):
+        return f"{self.id}-{self.name}"
 
