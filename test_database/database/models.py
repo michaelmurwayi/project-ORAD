@@ -17,7 +17,7 @@ class Project(models.Model):
         return self.name
     
 class Construction(models.Model):
-    #having a many-to-onr relatioship with project and construction. used foreignkey as construction_id.
+    #having a many-to-one relatioship with project and construction. used foreignkey as construction_id.
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='constructions')
     site_name = models.CharField(max_length=255)
     in_charge = models.CharField(max_length=255)
