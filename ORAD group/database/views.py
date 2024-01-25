@@ -13,6 +13,8 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser
+from django.utils import timezone
+from datetime import timedelta
 from .serializers import CustomUserSerializer
 
 @api_view(['POST'])
@@ -23,9 +25,16 @@ def user_login_view(request):
 
         user = authenticate(request, email=email_input, password=password)
 
-        if user is not None:
+        if user and user.is_active:
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
+            expiration_threshold = timezone.now() + timedelta(days=1)
+            if token.created < expiration_threshold:
+                # Regenerate token if it's about to expire
+                token.delete()
+                token = Token.objects.create(user=user)
+                token.created = timezone.now()
+                token.save()
             return Response({'token': token.key}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)

@@ -39,7 +39,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     groups = models.ManyToManyField(
         Group,
-        related_name='custom_user_groups',  # Add related_name here
+        related_name='custom_user_groups',  
         blank=True,
     )
 
