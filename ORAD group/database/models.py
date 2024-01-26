@@ -1,3 +1,5 @@
+from pyexpat import model
+from turtle import mode
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Permission, Group
 from django.utils import timezone
@@ -45,3 +47,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+class Document(models.Model):
+    title = models.CharField(max_length=256)
+    file = models.FileField(upload_to="documents/")
+    uploader = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    uploaded_at = models.DateField(auto_now_add=True)
+
+
+    def __str__(self):
+        return self.title
