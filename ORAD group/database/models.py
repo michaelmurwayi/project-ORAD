@@ -1,58 +1,79 @@
+
+
+from email.policy import default
+import profile
 from pyexpat import model
+from xml.dom.minidom import Document
+from django.contrib.auth.models import User
+
 from turtle import mode
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Permission, Group
 from django.utils import timezone
-
-class CustomUserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
-        if not email:
-            raise ValueError('The Email field must be set')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-
-        return self.create_user(email, password)
-
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(default=timezone.now)
-
-    objects = CustomUserManager()
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
-
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name='custom_user_permissions',
-        blank=True,
-    )
-
-    groups = models.ManyToManyField(
-        Group,
-        related_name='custom_user_groups',  
-        blank=True,
-    )
-
-    def __str__(self):
-        return self.email
-class Document(models.Model):
-    title = models.CharField(max_length=256)
-    file = models.FileField(upload_to="documents/")
-    uploader = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    uploaded_at = models.DateField(auto_now_add=True)
+from sqlalchemy import null
 
 
-    def __str__(self):
-        return self.title
+class CustomUser(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=False, null= True)
+    fullname= models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=20, default='0')
+    email= models.CharField(max_length=57)
+    is_active= models.BooleanField(default=False)
+    date_joined=models.DateTimeField(default=timezone.now)
+
+class Post(models.Model):
+    profile=models.ForeignKey(CustomUser, on_delete=models.PROTECT, blank=False, null=True)
+    text=models.TextField()
+    pub_date=models.DateTimeField("date published", auto_now_add=True)
+    media = models.ImageField(upload_to='images', null=True)
+    Document=models.ImageField(upload_to='Documents', null=True)
+
+
+# class Post(models.Model):
+#     uploader = models.ForeignKey(CustomUser, on_delete=models.PROTECT, blank=False, null=True)
+#     title = models.CharField(max_length=200)
+
+
+
+# class CustomUser(AbstractBaseUser, PermissionsMixin):
+#     email = models.EmailField(unique=True)
+#     first_name = models.CharField(max_length=30, blank=True)
+#     last_name = models.CharField(max_length=30, blank=True)
+#     is_active = models.BooleanField(default=True)
+#     is_staff = models.BooleanField(default=False)
+#     date_joined = models.DateTimeField(default=timezone.now)
+
+#     objects = CustomUser()
+
+#     USERNAME_FIELD = 'email'
+#     REQUIRED_FIELDS = ['first_name', 'last_name']
+
+#     user_permissions = models.ManyToManyField(
+#         Permission,
+#         related_name='custom_user_permissions',
+#         blank=True,
+#     )
+
+#     groups = models.ManyToManyField(
+#         Group,
+#         related_name='custom_user_groups',  
+#         blank=True,
+#     )
+
+#     def __str__(self):
+#         return self.email
+
+# class Engineer(models.Model):
+#     user_id = self.model(email)
+#     upload_file = 
+    
+# class Document(models.Model):
+#     title = models.CharField(max_length=256)
+#     file = models.FileField(upload_to="documents/")
+#     uploader = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+#     uploaded_at = models.DateField(auto_now_add=True)
+
+
+#     def __str__(self):
+#         return self.title
+  

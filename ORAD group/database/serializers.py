@@ -1,15 +1,20 @@
 # serializers.py
 from rest_framework import serializers
-from .models import CustomUser
-from .models import Document
+from database.models import *
+# from .models import Document
 
-class CustomUserSerializer(serializers.ModelSerializer):
+class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'first_name', 'last_name', 'is_active', 'date_joined']
-        read_only_fields = ['id', 'is_active', 'date_joined']
+        fields = ['id', 'fullname','email','phone_number', 'is_active', 'date_joined']
+    
 
-class DocumentSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Document
-        fields = ('id', 'title', 'documents', 'uploaded_at')
+        model = Post
+        fields = ['url','media', 'title', 'content', 'published']
+
+# class DocumentSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Document
+#         fields = ('id', 'title', 'documents', 'uploaded_at')
