@@ -13,6 +13,8 @@ router.register(r'register', AuthViewSet, basename='register')
 # router.register(r'users', UserViewSet, basename='users')
 urlpatterns = [
     path('', include(router.urls)),
+    # path('login', AuthViewSet.as_view({'post': 'login'}), name='login'),
+    # path('register', AuthViewSet.as_view({'post': 'register'}), name='register'),
     path('auth', include('rest_framework.urls', namespace='rest_framework'))
     # path('user/profile/', UserProfileView.as_view(), name='user-profile'),
     # path('signup/',user_signup_view, name='user-signup'),

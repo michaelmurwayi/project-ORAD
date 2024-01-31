@@ -25,8 +25,7 @@ class Post(models.Model):
     profile=models.ForeignKey(CustomUser, on_delete=models.PROTECT, blank=False, null=True)
     text=models.TextField()
     pub_date=models.DateTimeField("date published", auto_now_add=True)
-    media = models.ImageField(upload_to='images', null=True)
-    Document=models.ImageField(upload_to='Documents', null=True)
+    Document=models.FileField(upload_to='Documents', null=True)
 
 
 # class Post(models.Model):

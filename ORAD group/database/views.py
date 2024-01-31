@@ -19,7 +19,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser
 from django.utils import timezone
 from datetime import timedelta
-from .serializers import CustomUserSerializer, PostSerializer
+from .serializers import  CustomUserViewSet, PostSerializer
 from django.db.models import Q
 from rest_framework.permissions import AllowAny
 
@@ -28,6 +28,9 @@ from django.contrib.auth import authenticate
 from rest_framework import permissions, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action, api_view
+from rest_framework.response import Response
+# from http import HTTPMethod
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 
 
@@ -35,11 +38,11 @@ from rest_framework.decorators import action, api_view
 
 class AuthViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
+    serializer_class = CustomUserViewSet
 
     @action(detail=False, methods=['POST'], 
             permission_classes=[permissions.AllowAny],
-            url_path='login',
+            url_path=r'login',
         )
     def signin(self, request):
         username = request.data.get('username')
@@ -47,54 +50,46 @@ class AuthViewSet(viewsets.ModelViewSet):
 
         # Check if the username and password are valid
         user = authenticate(username=username, password=password)
-        # ipdb.set_trace()
+       
         if user is not None:
-            # Generate or retrieve the token for the authenticated user
-            token, created = Token.objects.get_or_create(user=user)
-            # Update last login time & expire it after a month
-            user.last_login = timezone.now()
-            user.token_expiry = timezone.now() + timedelta(days=30)
-            user.save()
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+            # Generate token
+            refresh = RefreshToken.for_user(user)
+            return Response({'refresh': str(refresh), 'access': str(refresh.access_token)})
         else:
             return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-        
-    @action(detail=False, methods=['POST'],
-            permission_classes=[permissions.AllowAny],
-            url_path="register")
-    
-    def register(self, request):
-        """Registers a new user."""
-        name=request.data.get('Fullname')
-        username=request.data.get('Username')
-        email=request.data.get("Email")
-        password=request.data.get('Password')
-        confirm_password=request.data.get('confirm_password')
 
-        user=User.objects.create_user(username,email,password)   
-        if user is not None:
-           profile=User.objects.create(
-                user=user,
-                fullName=name,
-                email=email
-            )   
-           return Response({'mssage': 'Usercreated successfully'}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({'error':'Error creating new user'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    @action(detail=False, methods=['POST'], 
+            permission_classes=[permissions.AllowAny],
+            url_path=r'register'
+        )
+    def signup(self, request):
+        name = request.data.get('fullname')
+        username = request.data.get('username')
+        email = request.data.get('email')
+        # phone_number = request.data.get('phone_number')
+        password = request.data.get('password')
+        confirm_password = request.data.get('confirm_password')
         
+        user = User.objects.create_user(username, email, password)
+        if user is not None:
+            # Create token
+            refresh = RefreshToken.for_user(user)
+            return Response({'message': 'User created successfully', 'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
     
-    class UserViewSet(viewsets.ModelViewSet):
+    class CustomUserViewSet(viewsets.ModelViewSet):
         authentication_classes=[TokenAuthentication]
         queryset=User.objects.all()
-        serializer_class=CustomUserSerializer
+        serializer_class=CustomUserViewSet
         permission_classes=(permissions.IsAuthenticated)
         
     
-    class CustomUserViewSet(viewsets.ModelViewSet):
-        """A view for the custom user model."""
-        queryset = CustomUser.objects.all().select_related('user')
-        serializer_class = CustomUserSerializer
-        permission_classes=[permissions.IsAuthenticated]
+    # class CustomUserViewSet(viewsets.ModelViewSet):
+    #     """A view for the custom user model."""
+    #     queryset = CustomUser.objects.all().select_related('user')
+    #     serializer_class = CustomUserSerializer
+    #     permission_classes=[permissions.IsAuthenticated]
     
     class PostViewSet(viewsets.ModelViewSet):
         """A view for the post objects."""
