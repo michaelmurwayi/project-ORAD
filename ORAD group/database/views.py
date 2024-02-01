@@ -20,7 +20,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser
 from django.utils import timezone
 from datetime import timedelta
-from .serializers import  CustomUserViewSet, PostSerializer
+from .serializers import  CustomUserSerializer, PostSerializer
 from django.db.models import Q
 from rest_framework.permissions import AllowAny
 
@@ -38,10 +38,37 @@ from django.shortcuts import render
 
 
 
+
 class AuthViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
-    serializer_class = CustomUserViewSet
+    serializer_class = CustomUserSerializer
+    @action(detail=False, methods=['POST'], 
+            permission_classes=[permissions.AllowAny],
+            url_path=r'register'
+        )
+    def signup(self, request):
+        name = request.POST.get('fullname')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        
+        user = User.objects.create_user(username, email, password)
+        if user is not None:
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'message': 'User created successfully',
+                'refresh': str(refresh),
+                'access': str(refresh.access_token)
+            }, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
+    def get(self, request):
+        # Render the register.html template
+        context = {}
+        return render(request, 'register.html', context)
+    
     @action(detail=False, methods=['POST'], 
             permission_classes=[permissions.AllowAny],
             url_path=r'login',
@@ -59,33 +86,6 @@ class AuthViewSet(viewsets.ModelViewSet):
             return Response({'refresh': str(refresh), 'access': str(refresh.access_token)})
         else:
             return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-
-    @action(detail=False, methods=['POST'], 
-            permission_classes=[permissions.AllowAny],
-            url_path=r'register'
-        )
-    def signup(self, request):
-        name = request.data.get('fullname')
-        username = request.data.get('username')
-        email = request.data.get('email')
-        # phone_number = request.data.get('phone_number')
-        password = request.data.get('password')
-        confirm_password = request.data.get('confirm_password')
-        
-        user = User.objects.create_user(username, email, password)
-        if user is not None:
-            # Create token
-            refresh = RefreshToken.for_user(user)
-            return Response({'message': 'User created successfully', 'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-    
-    class CustomUserViewSet(viewsets.ModelViewSet):
-        authentication_classes=[TokenAuthentication]
-        queryset=User.objects.all()
-        serializer_class=CustomUserViewSet
-        permission_classes=(permissions.IsAuthenticated)
-        
     
     # class CustomUserViewSet(viewsets.ModelViewSet):
     #     """A view for the custom user model."""
@@ -93,11 +93,41 @@ class AuthViewSet(viewsets.ModelViewSet):
     #     serializer_class = CustomUserSerializer
     #     permission_classes=[permissions.IsAuthenticated]
     
-    class PostViewSet(viewsets.ModelViewSet):
+class PostViewSet(viewsets.ModelViewSet):
         """A view for the post objects."""
         queryset = Post.objects.all()
         serializer_class = PostSerializer
         permission_classes=[permissions.IsAuthenticated]
+
+        @action(detail=False, methods=['GET'],
+            permission_classes=[permissions.AllowAny],
+            url_path=r'fetch',
+                )
+        def fetch_post(self, request):
+           posts = Post.objects.filter(author=request.user).order_by("-published")
+           serializer = self.get_serializer(posts, many=True)
+           return Response(serializer.data)
+        
+        @action(detail=False, methods=['POST'],
+            permission_classes=[permissions.AllowAny],
+            url_path=r'posts',
+            )
+        def create_post(self, request):
+           serializer = PostSerializer(data=request.data)
+           if serializer.is_valid():
+              serializer.save(author=request.user)
+              return Response(serializer.data, status=status.HTTP_201_CREATED)
+           else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+class CustomUserViewSet(viewsets.ModelViewSet):
+        authentication_classes=[TokenAuthentication]
+        queryset=User.objects.all()
+        serializer_class=CustomUser()
+        permission_classes=(permissions.IsAuthenticated)
+
 def home_view(request):
     context={}
     return render(request,'home/main.html',context)
@@ -106,6 +136,13 @@ def Admin_view(request):
     context={}
     return render(request,"admin/Admin.html",context)
 
+def register_view(request):
+    context={}
+    return render(request,"register/register.html",context)
+
+def login_view(request):
+    context={}
+    return render(request,"login/login.html",context)
 
 
 

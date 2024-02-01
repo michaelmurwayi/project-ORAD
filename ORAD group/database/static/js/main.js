@@ -116,21 +116,119 @@
     ---------------------------- */
 })(jQuery);
 
-// Example AJAX login request
-const loginForm = document.getElementById('loginForm');
-loginForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(loginForm);
-    fetch('/login/', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        // Handle response data
-    })
-    .catch(error => {
-        console.error('Error:', error);
+// new js for the 
+$(document).ready(function() {
+    $('#registerBtn').click(function() {
+        var formData = {
+            'fullname': $('#fullname').val(),
+            'email': $('#email').val(),
+            'password': $('#password').val(),
+            'confirm_password': $('#confirm_password').val(),
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/signup/',  // Update with your actual endpoint URL
+            data: formData,
+            dataType: 'json',  // Expect JSON response
+            success: function(data) {
+                console.log('Registration successful:', data);
+                // Handle success response, e.g., redirect to login page
+                window.location.href = '/login/'; // Example redirection to login page
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('Registration failed:', errorThrown);
+                // Handle error response, e.g., display error message
+                $('#error-message').text('Registration failed: ' + errorThrown);
+            }
+        });
     });
 });
+
+// function fetchData(endpoint) {
+//     fetch(endpoint)
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Network response was not ok');
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             console.log('Data:', data);
+//             // Process data as needed
+//         })
+//         .catch(error => {
+//             console.error('Error:', error.message);
+//         });
+// }
+
+// // Get references to menu items
+// var myFiles = document.getElementById('myFiles');
+// var teamFolder = document.getElementById('teamFolder');
+// var references = document.getElementById('references');
+// var documents = document.getElementById('documents');
+
+// // Add event listeners to menu items
+// myFiles.addEventListener('click', function(event) {
+//     event.preventDefault();
+//     fetchData('/my-files-endpoint');
+// });
+
+// teamFolder.addEventListener('click', function(event) {
+//     event.preventDefault();
+//     fetchData('/team-folder-endpoint');
+// });
+
+// references.addEventListener('click', function(event) {
+//     event.preventDefault();
+//     fetchData('/references-endpoint');
+// });
+
+// documents.addEventListener('click', function(event) {
+//     event.preventDefault();
+//     fetchData('/documents-endpoint');
+// });
+
+// // Define a function to fetch and render documents
+// document.addEventListener('DOMContentLoaded', function() {
+//     fetchPosts();
+// });
+
+// function fetchAndRenderPosts() {
+//     fetch('/api/posts/fetch/')
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Network response was not ok');
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             // Render posts in the UI
+//             renderPosts(data);
+//         })
+//         .catch(error => {
+//             console.error('Error:', error.message);
+//         });
+// }
+// Define default data
+function fetchPosts() {
+    fetch('http://localhost:8000/fetch/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.length > 0) {
+                renderPosts(data);
+            } else {
+                console.log('No posts found.');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching posts:', error);
+        });
+}
+
+

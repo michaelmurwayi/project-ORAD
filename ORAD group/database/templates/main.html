@@ -83,18 +83,18 @@
                             <a class="has-arrow" href="main.html">
 								   <span class="educate-icon educate-home icon-wrap"></span>
 								   <span class="mini-click-non">Home</span>
-								</a>
+							</a>
                         </li>
                         <li>
-                            <a title="Landing Page" href="events.html" aria-expanded="false"><span class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Event</span></a>
+                            {% comment %} <a title="Landing Page" href="events.html" aria-expanded="false"><span class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Event</span></a> {% endcomment %}
                         </li>
                         <li>
                             <a class="has-arrow" href="main.html" aria-expanded="false"><span class="educate-icon educate-folder icon-wrap"></span> <span class="mini-click-non">All Files</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="My Filess" href="#"><span class="mini-sub-pro">My Files</span></a></li>
-                                <li><a title="Team Folder" href="#"><span class="mini-sub-pro">Team Folder</span></a></li>
-                                <li><a title="References" href="#"><span class="mini-sub-pro">References</span></a></li>
-                                <li><a title="Documents" href="#"><span class="mini-sub-pro">Documents</span></a></li>
+                                <li><a id="myFiles" title="My Filess" href="#"><span class="mini-sub-pro">My Files</span></a></li>
+                                <li><a id="teamfolder" title="Team Folder" href="#"><span class="mini-sub-pro">Team Folder</span></a></li>
+                                {% comment %} <li><a id="myFiles" title="References" href="#"><span class="mini-sub-pro">References</span></a></li> {% endcomment %}
+                                <li><a id="documents" title="Documents" href="#"><span class="mini-sub-pro">Documents</span></a></li>
                             </ul>
                         </li>
 
@@ -803,12 +803,12 @@
                 </div>
                 <span>Team Folder</span>
             </button>
-            <button class="button">
+            {% comment %} <button class="button">
                 <div id="btn-container">
                     <img src="{% static './img/folder.png' %}" alt="">
                 </div>
                 <span>Referencs</span>
-            </button>
+            </button> {% endcomment %}
             <button class="button">
                 <div id="btn-container">
                     <img src="{% static './img/folder.png' %}" alt="">
@@ -816,6 +816,7 @@
                 <span>Documents</span>
             </button>
         </div>
+        {% comment %} <div id="documents-container">Files</div> {% endcomment %}
         <div>
             <p>favourites</p>
             <hr class="solid">
@@ -824,9 +825,31 @@
         <div>
             <p>Bookmark</p>
             <hr class="solid">
-
         </div>
 
+    <div id="post-container" style="overflow-x: auto;">
+    <table class="post-table" style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Title</th>
+                <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Content</th>
+                <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Author</th>
+                <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.title }}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.content }}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.author }}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br><br>
 
 
     </div>
@@ -892,7 +915,7 @@
     <script src="{% static  'js/plugins.js' %}"></script>
     <!-- main JS
 		============================================ -->
-    <script src="{% static   'js/main.js' %}"></script>
+    <script src="{% static    'js/main.js' %}"></script>
     <!-- tawk chat JS
 		============================================ -->
 

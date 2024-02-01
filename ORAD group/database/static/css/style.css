@@ -91,7 +91,7 @@ body {}
     background-color:transparent;
     border: none;
     border-radius: 15px;
-    box-shadow: ;
+    
     height: 160px;
     width: 240px;
   }
@@ -100,7 +100,7 @@ body {}
 
   .button:active {
     background-color: #606060;
-    box-shadow: ;
+    
     transform: translateY(4px);
   }
 /* Solid border */
@@ -4758,3 +4758,4 @@ div#sparklinehome canvas {
 	color:#fff;
 	text-decoration:none;
 }
+

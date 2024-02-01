@@ -20,13 +20,12 @@ class CustomUser(models.Model):
     email= models.CharField(max_length=57)
     is_active= models.BooleanField(default=False)
     date_joined=models.DateTimeField(default=timezone.now)
-
+    
 class Post(models.Model):
-    profile=models.ForeignKey(CustomUser, on_delete=models.PROTECT, blank=False, null=True)
-    text=models.TextField()
-    pub_date=models.DateTimeField("date published", auto_now_add=True)
-    Document=models.FileField(upload_to='Documents', null=True)
-
+    author = models.ForeignKey(CustomUser, on_delete=models.PROTECT, blank=False, null=True)
+    text = models.TextField()
+    pub_date = models.DateTimeField("date published", auto_now_add=True)
+    document = models.FileField(upload_to='documents/', null=True)
 
 # class Post(models.Model):
 #     uploader = models.ForeignKey(CustomUser, on_delete=models.PROTECT, blank=False, null=True)
