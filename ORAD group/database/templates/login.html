@@ -74,7 +74,8 @@
 			<div class="content-error">
 				<div class="hpanel">
                     <div class="panel-body">
-                        <form method='POST' action="#" id="loginForm">
+                    {% block content %}
+                        <form method='POST' action="{% url 'login' %}" id="loginForm">
                         {% crf_token %}
                             <div class="form-group">
                                 <label class="control-label" for="username">Username</label>
@@ -96,6 +97,7 @@
                             <div class="btn btn-default btn-block">Don't have an account <a href="#" class="ml-2">Register</a>
                             </div>
                         </form>
+                        {% endblock %}
                     </div>
                 </div>
 			</div>

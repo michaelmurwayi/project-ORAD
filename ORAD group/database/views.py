@@ -31,6 +31,7 @@ from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 # from http import HTTPMethod
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+from django.shortcuts import render
 
 
 
@@ -96,7 +97,9 @@ class AuthViewSet(viewsets.ModelViewSet):
         queryset = Post.objects.all()
         serializer_class = PostSerializer
         permission_classes=[permissions.IsAuthenticated]
-
+def home_view(request):
+    context={}
+    return render(request,'home/main.html',context)
 
 
 
