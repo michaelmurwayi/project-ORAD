@@ -1,6 +1,7 @@
 from argparse import Action
 from crypt import methods
 import email
+from multiprocessing import context
 from os import name
 import profile
 from venv import create
@@ -100,6 +101,10 @@ class AuthViewSet(viewsets.ModelViewSet):
 def home_view(request):
     context={}
     return render(request,'home/main.html',context)
+
+def Admin_view(request):
+    context={}
+    return render(request,"admin/Admin.html",context)
 
 
 
