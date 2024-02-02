@@ -80,7 +80,7 @@
                 <nav class="sidebar-nav left-sidebar-menu-pro">
                     <ul class="metismenu" id="menu1">
                         <li class="active">
-                            <a class="has-arrow" href="main.html">
+                            <a class="has-arrow" href="#">
 								   <span class="educate-icon educate-home icon-wrap"></span>
 								   <span class="mini-click-non">Home</span>
 							</a>
@@ -92,7 +92,21 @@
                             <a class="has-arrow" href="main.html" aria-expanded="false"><span class="educate-icon educate-folder icon-wrap"></span> <span class="mini-click-non">All Files</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a id="myFiles" title="My Filess" href="#"><span class="mini-sub-pro">My Files</span></a></li>
-                                <li><a id="teamfolder" title="Team Folder" href="#"><span class="mini-sub-pro">Team Folder</span></a></li>
+                                <li><a id="teamfolder" title="Team Folder" href="#"><span class="mini-sub-pro">Q.C</span></a>
+                                       <ul>
+                                           <li><a href="#">Architect</a></li>
+                                            <li><a href="#">Engineer</a></li>
+                                            <li><a href="#">Interior Design</a>
+                                            <ul>
+                                               <li>
+                                               <a href="/home/mark/home/mark/project-django/ORAD group/media/pdf">Path to PDF</a>
+                                               </li>
+                                            </ul>
+                                            </li>
+                                            <li><a href="#">Project Manager</a></li>
+                                            <li><a href="#">Quantity Surveyor</a></li>
+                                        </ul>
+                                </li>
                                 {% comment %} <li><a id="myFiles" title="References" href="#"><span class="mini-sub-pro">References</span></a></li> {% endcomment %}
                                 <li><a id="documents" title="Documents" href="#"><span class="mini-sub-pro">Documents</span></a></li>
                             </ul>
@@ -134,11 +148,11 @@
                                             <ul class="nav navbar-nav mai-top-nav">
                                                 <li class="nav-item"><a href="Admin.html" class="nav-link">Home</a>
                                                 </li>
-                                                <li class="nav-item"><a href="#" class="nav-link">About</a>
+                                                <li class="nav-item"><a href="#" class="nav-link">My Files</a>
                                                 </li>
-                                                <li class="nav-item"><a href="#" class="nav-link">Services</a>
+                                                <li class="nav-item"><a href="#" class="nav-link">Q.C</a>
                                                 </li>
-                                                <li class="nav-item"><a href="#" class="nav-link">Support</a>
+                                                <li class="nav-item"><a href="#" class="nav-link">Documents</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -745,9 +759,7 @@
                                             <ul id="demoevent" class="collapse dropdown-header-top">
                                                 <li><a href="#">My Files</a>
                                                 </li>
-                                                <li><a href="#">Team Folder</a>
-                                                </li>
-                                                <li><a href="#">References</a>
+                                                <li><a href="#">Q.C</a>
                                                 </li>
                                                 <li><a href="#">Documents</a>
                                                 </li>
@@ -801,7 +813,7 @@
                 <div id="btn-container">
                     <img src="{% static './img/folder.png' %}" alt="">
                 </div>
-                <span>Team Folder</span>
+                <span>Upload</span>
             </button>
             {% comment %} <button class="button">
                 <div id="btn-container">
@@ -820,35 +832,38 @@
         <div>
             <p>favourites</p>
             <hr class="solid">
-
         </div>
+        <br>
         <div>
             <p>Bookmark</p>
             <hr class="solid">
         </div>
+        <br>
 
-    <div id="post-container" style="overflow-x: auto;">
+  <div id="post-table-body" style="overflow-x: auto;"> 
     <table class="post-table" style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
-                <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Title</th>
-                <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Content</th>
+              <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Title</th>
                 <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Author</th>
                 <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Date</th>
+                <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Document</th>
             </tr>
+            
         </thead>
-        <tbody>
-            {% for post in posts %}
+         <tbody>
+             {% for post in fetch %} 
             <tr>
-                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.title }}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.text }}</td>
                 <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.content }}</td>
                 <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.author }}</td>
-                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.date }}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.pub_date }}</td>
             </tr>
-            {% endfor %}
-        </tbody>
+            {% endfor %} 
+        </tbody> 
     </table>
 </div>
+
 <br><br>
 
 
@@ -916,6 +931,108 @@
     <!-- main JS
 		============================================ -->
     <script src="{% static    'js/main.js' %}"></script>
+    <script>
+    // JavaScript
+document.addEventListener('DOMContentLoaded', function () {
+    // Fetch posts using fetch or any AJAX library
+    fetch('http://localhost:8000/fetch/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            renderPosts(data);
+        })
+        .catch(error => {
+            console.error('Error fetching posts:', error);
+        });
+});
+
+function renderPosts(posts) {
+    const postTableBody = document.getElementById('post-table-body');
+    const headerCells = document.querySelectorAll('#post-table-header th');
+
+
+  posts.forEach(post => {
+    const row = document.createElement('tr');
+
+    // Title Cell
+    const titleCell = document.createElement('td');
+    titleCell.textContent = post.text;
+    titleCell.style.textAlign = 'left'; // Align content to the left
+    titleCell.style.padding = '8px'; // Add padding
+    titleCell.style.width = '20%'; // Set the width of the cell
+    row.appendChild(titleCell);
+
+   
+
+    // Content Cell
+    const contentCell = document.createElement('td');
+    contentCell.textContent = post.content;
+    contentCell.style.textAlign = 'left'; // Align content to the left
+    contentCell.style.padding = '8px'; // Add padding
+    contentCell.style.width = '20%'; // Set the width of the cell
+    row.appendChild(contentCell);
+
+    // Author Cell
+    const authorCell = document.createElement('td');
+    authorCell.textContent = post.author;
+    authorCell.style.textAlign = 'left'; // Align content to the left
+    authorCell.style.padding = '8px'; // Add padding
+    authorCell.style.width = '20%'; // Set the width of the cell
+    row.appendChild(authorCell);
+
+    // Date Cell
+    const dateCell = document.createElement('td');
+    dateCell.textContent = post.pub_date;
+    dateCell.style.textAlign = 'left'; // Align content to the left
+    dateCell.style.padding = '8px'; // Add padding
+    dateCell.style.width = '20%'; // Set the width of the cell
+    row.appendChild(dateCell);
+
+    // Document Cell
+    const documentCell = document.createElement('td');
+    documentCell.textContent = post.document;
+    documentCell.style.textAlign = 'left'; // Align content to the left
+    documentCell.style.padding = '8px'; // Add padding
+    documentCell.style.width = '20%'; // Set the width of the cell
+    row.appendChild(documentCell);
+
+    
+
+     // Add favorite icon
+    const favoriteIcon = document.createElement('span');
+    favoriteIcon.className = 'favorite-icon';
+    favoriteIcon.textContent = '⭐';
+    documentCell.appendChild(favoriteIcon);
+
+    const documentDownloadButton = createDownloadButton();
+    documentCell.appendChild(documentDownloadButton);
+
+    // Append the row to the table body
+    postTableBody.appendChild(row);
+});
+
+function createDownloadButton() {
+    const button = document.createElement('button');
+    button.textContent = 'Download';
+    button.classList.add('download-button');
+    button.addEventListener('click', function() {
+        // Replace "path/to/your/file.pdf" with the actual path to your file
+        const filePath = 'ORAD group/media/documents';
+        window.open(filePath, '_blank');
+    });
+    return button;
+}
+
+}
+
+
+
+
+</script>
     <!-- tawk chat JS
 		============================================ -->
 

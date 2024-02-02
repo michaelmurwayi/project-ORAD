@@ -1,5 +1,6 @@
 # urls.py
 from atexit import register
+import os
 from django import views
 from django.db import router
 from django.urls import include, path
@@ -33,4 +34,4 @@ urlpatterns = [
     # path('upload/', upload_document, name= 'upload-document'),
     # path('documents/',get_documents, name = 'get-documents'),
   
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]  + static(settings.MEDIA_URL, document_root=os.path.join(settings.BASE_DIR, 'media'))

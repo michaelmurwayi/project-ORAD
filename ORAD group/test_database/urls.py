@@ -25,4 +25,4 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('database.urls')),
-]
+]  + static(settings.MEDIA_URL, document_root=os.path.join(settings.BASE_DIR, 'media'))

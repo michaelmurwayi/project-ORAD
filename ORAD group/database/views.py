@@ -105,8 +105,11 @@ class PostViewSet(viewsets.ModelViewSet):
                 )
         def fetch_post(self, request):
            posts = Post.objects.filter(author=request.user).order_by("-published")
-           serializer = self.get_serializer(posts, many=True)
-           return Response(serializer.data)
+           context = {'posts': posts}
+    
+        # Render the main.html template with the posts data
+           return render(request, 'main.html', context)
+           
         
         @action(detail=False, methods=['POST'],
             permission_classes=[permissions.AllowAny],
