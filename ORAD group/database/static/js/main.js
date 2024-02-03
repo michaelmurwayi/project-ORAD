@@ -211,24 +211,24 @@ $(document).ready(function() {
 //         });
 // }
 // Define default data
-function fetchPosts() {
-    fetch('http://localhost:8000/fetch/')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data && data.length > 0) {
-                renderPosts(data);
-            } else {
-                console.log('No posts found.');
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching posts:', error);
-        });
-}
+// function fetchPosts() {
+//     fetch('http://localhost:8000/fetch/')
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Network response was not ok');
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             if (data && data.length > 0) {
+//                 renderPosts(data);
+//             } else {
+//                 console.log('No posts found.');
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error fetching posts:', error);
+//         });
+// }
 
 
