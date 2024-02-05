@@ -1,6 +1,8 @@
 
 
 from email.policy import default
+from enum import unique
+from hashlib import blake2b
 import profile
 from pyexpat import model
 from xml.dom.minidom import Document
@@ -11,16 +13,19 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Permission, Group
 from django.utils import timezone
 from sqlalchemy import null
+from django.contrib.auth.models import AbstractUser
+
 
 
 class CustomUser(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=False, null= True)
-    fullname= models.CharField(max_length=50)
-    phone_number = models.CharField(max_length=20, default='0')
+    fullname= models.CharField(max_length=50,null=True, blank=True)
     email= models.CharField(max_length=57)
+    password= models.CharField(max_length=20, null=True )
     is_active= models.BooleanField(default=False)
     date_joined=models.DateTimeField(default=timezone.now)
-    
+
+
+
 class Post(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.PROTECT, blank=False, null=True)
     text = models.TextField()

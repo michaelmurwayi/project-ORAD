@@ -3,11 +3,11 @@ from rest_framework import serializers
 from database.models import CustomUser, Post
 
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
-    # Adjust the field name to match the field in your CustomUser model
-    # Assuming the field name in the CustomUser model is 'full_name' instead of 'fullname'
+    email = serializers.EmailField(required=True)
+
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'phone_number', 'is_active', 'date_joined']
+        fields = ['fullname', 'email','password', 'is_active', 'date_joined']
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     # Assuming `author` is a ForeignKey to CustomUser

@@ -25,4 +25,8 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('database.urls')),
+    path('users/', RegisterAPIView.as_view(), name='users'),
+    path('login/', login, name="login"),
+    path('logout/', logout, name="logout"),
+    path('register', register_view,name="register"),
 ]  + static(settings.MEDIA_URL, document_root=os.path.join(settings.BASE_DIR, 'media'))

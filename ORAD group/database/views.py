@@ -1,11 +1,13 @@
 from argparse import Action
 from crypt import methods
 import email
+from email import message
 from multiprocessing import context
 from os import name
 import profile
 from venv import create
-from django.shortcuts import render
+from django.http import HttpRequest
+from django.shortcuts import redirect, render
 
 # Create your views here.
 
@@ -28,64 +30,150 @@ from database.models import *
 from django.contrib.auth import authenticate
 from rest_framework import permissions, viewsets
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.decorators import action, api_view
+from rest_framework.decorators import action,api_view
 from rest_framework.response import Response
 # from http import HTTPMethod
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from django.shortcuts import render
+from rest_framework.authtoken.models import Token
+from django.http import HttpRequest, JsonResponse
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
 
 
 
-
-
-
-class AuthViewSet(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
-    @action(detail=False, methods=['POST'], 
-            permission_classes=[permissions.AllowAny],
-            url_path=r'register'
-        )
-    def signup(self, request):
-        name = request.POST.get('fullname')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm_password')
-        
-        user = User.objects.create_user(username, email, password)
-        if user is not None:
+class RegisterAPIView(APIView):
+ permission_classes = (AllowAny,)
+ def post(self, request, format=None):
+        serializer = CustomUserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            if user is not None:
+             login(request, user)
+            # return redirect('home')
+        #    token, _ = Token.objects.get_or_create(user=user)
+           # Expires in one day
             refresh = RefreshToken.for_user(user)
             return Response({
-                'message': 'User created successfully',
-                'refresh': str(refresh),
-                'access': str(refresh.access_token)
-            }, status=status.HTTP_201_CREATED)
-        else:
-            return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+               "token": str(refresh.access_token)}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request):
-        # Render the register.html template
-        context = {}
-        return render(request, 'register.html', context)
+#  def register(request):
+#      print(request)
+#      if request.method == "POST":
+#           serializer = CustomUserSerializer(data=request.data)
+#           if  serializer.is_valid():
+#            user = serializer.save()
+#         #    user.password(request.data.get('password'))
+#         #    user = user.save()
+#         #    user = authenticate(request, email=request.data.get('email'), password=request.data.get('password'))
+#            if user is not None:
+#             login(request, user)
+#             # return redirect('home')
+#         #    token, _ = Token.objects.get_or_create(user=user)
+#            # Expires in one day
+#            refresh = RefreshToken.for_user(user)
+#            return Response({
+#                "token": str(refresh.access_token)}, status=status.HTTP_201_CREATED)
+#           else:
+#             return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+#      elif request.method == "GET":
+#        return render(request, 'register.html')
+     
     
-    @action(detail=False, methods=['POST'], 
-            permission_classes=[permissions.AllowAny],
-            url_path=r'login',
-        )
-    def signin(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
+@api_view(['POST', 'GET'])
+def login(request: HttpRequest):
+    if request.method == 'POST':
+         email = request.data.get('email')
+         password = request.data.get('password')
+         user = authenticate(username=email, password=password)
+         if user is not None and user.is_active:
+             login(request, user)
+             user.save()
+             refresh = RefreshToken.for_user(user)
+             return Response({'token': str(refresh.access_token)}, status=status.HTTP_200_OK)
+         else:
+             return Response({'error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
+    elif request .method == "GET":
+        return render(request,'login.html')
+        # logout(request)
+        # return HttpResponseRedirect('/login/')
 
-        # Check if the username and password are valid
-        user = authenticate(username=username, password=password)
+@api_view(['GET','PUT'])
+def logout(request: HttpRequest):
+    logout(request)
+    return redirect("login")
+            
+    
+    
+
+
+
+# class AuthViewSet(viewsets.ModelViewSet):
+#     queryset = CustomUser.objects.all()
+#     serializer_class = CustomUserSerializer
+#     @action(detail=False, methods=['POST'], 
+#             permission_classes=[permissions.AllowAny],
+#             url_path=r'register'
+#         )
+#     def register(self, request):
+#         if request.method == 'POST':
+#             form = self.serializer_class(data=request.data)
+#             if form.is_valid():
+#                 user = form.save() # Save to create the user instance
+#                 username = user.username
+#                 password = request.data['password']
+#                 user = authenticate(username=username, password=password)
+#                 response = {'user_id': user.id}
+#                 return Response(response)
+#             else:
+#                 return Response(form.errors, status=400)
+    
+#     @api_view(['GET'])
+#     def login(request, format=None):
+#         username = request.query_params.get('username', None)
+#         password = request.query_params.get('password', None)
+        
+#         if not (username and password):
+#             return Response({"error": "Missing data"}, status=400)
+            
+#         user = authenticate(username=username, password=password)
+#         if user is not None:
+#             # Create a token for this user
+#             refresh_token = str(RefreshToken.for_user(user))
+#             access_token = str(AccessToken.for_user(user))
+#             response =
+#             refresh = RefreshToken.for_user(user)
+#             return Response({
+#                 'message': 'User created successfully',
+#                 'refresh': str(refresh),
+#                 'access': str(refresh.access_token)
+#             }, status=status.HTTP_201_CREATED)
+#         else:
+#             return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+#     def get(self, request):
+#         # Render the register.html template
+#         context = {}
+#         return render(request, 'register.html', context)
+    
+#     @action(detail=False, methods=['POST'], 
+#             permission_classes=[permissions.AllowAny],
+#             url_path=r'login',
+#         )
+#     def login(self, request):
+#         fullname = request.data.get('fullname')
+#         password = request.data.get('password')
+
+#         # Check if the fullname and password are valid
+#         user = authenticate(fullname=fullname, password=password)
        
-        if user is not None:
-            # Generate token
-            refresh = RefreshToken.for_user(user)
-            return Response({'refresh': str(refresh), 'access': str(refresh.access_token)})
-        else:
-            return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+#         if user is not None:
+#             # Generate token
+#             refresh = RefreshToken.for_user(user)
+#             return Response({'refresh': str(refresh), 'access': str(refresh.access_token)})
+#         else:
+#             return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
     
     # class CustomUserViewSet(viewsets.ModelViewSet):
     #     """A view for the custom user model."""
@@ -141,7 +229,7 @@ def Admin_view(request):
 
 def register_view(request):
     context={}
-    return render(request,"register/register.html",context)
+    return render(request,"register.html",context)
 
 def login_view(request):
     context={}

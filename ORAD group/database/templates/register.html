@@ -74,38 +74,45 @@
 			</div>
 			<div class="content-error">
 				<div class="hpanel">
-                    <div class="panel-body">
-                    {% block content %}
-<form method="POST" action="{% url 'signup' %}" id="registerForm">
-    {% csrf_token %}
-    <div class="form-group">
-        <label class="control-label" for="fullname">Full Name</label>
-        <input type="text" placeholder="Your Full Name" title="Please enter your full name" required="" value="" name="fullname" id="fullname" class="form-control">
-        <span class="help-block small">Your full name</span>
-    </div>
-    <div class="form-group">
-        <label class="control-label" for="email">Email</label>
-        <input type="email" placeholder="example@gmail.com" title="Please enter your email" required="" value="" name="email" id="email" class="form-control">
-        <span class="help-block small">Your email address</span>
-    </div>
-    <div class="form-group">
-        <label class="control-label" for="password">Password</label>
-        <input type="password" title="Please enter your password" placeholder="******" required="" value="" name="password" id="password" class="form-control">
-        <span class="help-block small">Your strong password</span>
-    </div>
-    <div class="form-group">
-        <label class="control-label" for="confirm_password">Confirm Password</label>
-        <input type="password" title="Please confirm your password" placeholder="******" required="" value="" name="confirm_password" id="confirm_password" class="form-control">
-        <span class="help-block small">Confirm your password</span>
-    </div>
-    <button type="button" id="registerBtn" class="btn btn-success btn-block">Register</button>
-</form>
+      <div class="panel-body">
+    {% block content %}
+                        <form method="POST" action="{% url 'users' %}" id="registerForm">
+                          {% csrf_token %}    
+                          <div
+                          class="form-group">
+                          <label class="control-label" for="Fullname">Fullname</label>
+                          <input type="Fullname" placeholder="Fullname" required  id="fullname" name="fullname" value="" class="form-control">
 
-
-                        {% endblock %}
+                          </div>
+                            <div class="form-group">
+                                <label class="control-label" for="email">Email</label>
+                                <input type="email" placeholder="example@gmail.com" title="Please enter your email" required  id="email" name="email" class="form-control">
+                               <span class="help-block small">Your unique email for the app</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="password">Password</label>
+                                <input type="password" title="Please enter your password" placeholder="******" required  name="password" id="password" class="form-control">
+                                <span class="help-block small">Yur strong password</span>
+                            </div>
+                            <div class="checkbox register-checkbox">
+                              <label>
+										           <input type="checkbox"> Remember me 
+                              </label>
+                            </div>
+                            <div class="checkbox is_active-checkbox"> 
+                             <label>
+                             <input type="checkbox" value="" name="is_active" checked="false" id="isActiveCheckbox"/>Active
+                               <input type="hidden" name="is_active" value="YES" />
+                               <span style="color: green;">&#10004;</span>
+                             </label>
+                             </div>
+                            <button class="btn btn-success btn-block loginbtn" href="{% url 'register'  %}" data-toggle="modal">Register</button>
+                            <div  class="btn btn-default btn-block">Already have and account? <a href="{% url 'login' %}">Login</a>
+                        </form>
                     </div>
                 </div>
 			</div>
+{% endblock content %}
       <div class="text-center login-footer">
 				<p>Copyright © 2024. All rights reserved.</p>
 			</div>

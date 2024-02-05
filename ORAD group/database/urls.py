@@ -11,22 +11,28 @@ from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 router = routers.DefaultRouter()
-router.register(r'login',AuthViewSet, basename='login')
-router.register(r'register', AuthViewSet, basename='signup')
-router.register(r'fetch', PostViewSet, basename='fetch_post')
-router.register(r'posts',PostViewSet, basename='posts')
+# router.register(r'login',AuthViewSet)
+# router.register(r'register', AuthViewSet)
+router.register(r'fetch', PostViewSet)
+router.register(r'posts',PostViewSet)
+router.register(r'customuser', CustomUserViewSet)
 # router.register(r'post', PostViewSet, basename='post' )
 # router.register(r'users', UserViewSet, basename='users')
 app_name= 'database'
 urlpatterns = [
     path('', include(router.urls)),
-    path('login', AuthViewSet.as_view({'post': 'login'}), name='login'),
-    path('signup/', AuthViewSet.as_view({'post': 'signup'}), name='signup'),   
+    # path('login', AuthViewSet.as_view({'post': 'login'}), name='login'),
+    # path('register', AuthViewSet.as_view({'post': 'register'}), name='register'),   
     path('auth', include('rest_framework.urls', namespace='rest_framework')),
     path('Useradmin', TemplateView.as_view(template_name='Admin.html')),
     path('home', TemplateView.as_view(template_name='main.html')),
-    path('register', TemplateView.as_view(template_name='register.html')),
+    path('users/', RegisterAPIView.as_view()),    
+    path ('login'  , TemplateView.as_view(template_name= 'login.html')),
+    path('logout', TemplateView.as_view(template_name="logout.html")),
+    path('register', register_view, name='register')
+
 
     # path('user/profile/', UserProfileView.as_view(), name='user-profile'),
     # path('signup/',user_signup_view, name='user-signup'),
