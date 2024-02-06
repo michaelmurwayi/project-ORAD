@@ -412,18 +412,17 @@
                 <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Date</th>
                 <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Document</th>
             </tr>
+             {% for post in post %} 
             
         </thead>
-         <tbody>
-             {% for post in fetch %} 
+         
             <tr>
                 <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.text }}</td>
                 <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.content }}</td>
                 <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.author }}</td>
                 <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.pub_date }}</td>
             </tr>
-            {% endfor %} 
-        </tbody> 
+        {% endfor %} 
     </table>
 </div>
 
@@ -498,7 +497,7 @@
     // JavaScript
 document.addEventListener('DOMContentLoaded', function () {
     // Fetch posts using fetch or any AJAX library
-    fetch('http://localhost:8000/fetch/')
+    fetch('http://localhost:8000/fetch')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
