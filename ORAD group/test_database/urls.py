@@ -21,6 +21,8 @@ from django.conf.urls.static import static
 import os
 from django.conf import settings
 from django.views.generic import TemplateView
+# Serve static and media files during development only
+from database.views import PostViewSet, serve_pdf
 
 
 urlpatterns = [
@@ -31,4 +33,13 @@ urlpatterns = [
     path('login/', views.login, name="login"),
     path('logout/', views.logout, name="logout"),
     path('register', views.register_view, name="register"),
-]  + static(settings.MEDIA_URL, document_root=os.path.join(settings.BASE_DIR, 'media'))
+    path('interior.html', views.interior_view, name='interior_html'),
+    path('serve-pdf/<str:filename>/', serve_pdf, name='serve_pdf'),
+    path('fetch', PostViewSet.as_view, name='fetch'),
+    path('posts/', PostViewSet.as_view({'post': 'create_post'}), name='create_post'),
+
+
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

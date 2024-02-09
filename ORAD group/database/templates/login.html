@@ -60,14 +60,19 @@
 <!-- modernizr JS
 ============================================= -->
 <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
-
+<style>
+#logo{
+   background-color: green; /* Set the background color */
+   padding: 10px; /* Add padding to create space around the logo */ 
+}
+</style>
 </head>
 
 <body>
     <!--[if lt IE 8]>
 		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
-	<div class="error-pagewrap">
+	<div class="error-pagewrap" style="background-color: #7FA35C; padding: 20px;">
 		<div class="error-page-int">
 			<div class="text-center m-b-md custom-login">
 				<h3>PLEASE LOGIN TO APP</h3>
@@ -89,7 +94,7 @@
                             <input type="password" title="Please enter your password" placeholder="******" required="" value="" name="password" id="password" class="form-control">
                             <span class="help-block small">Your strong password</span>
                         </div>
-                            <button type="submit" class="btn btn-success btn-block loginbtn">Login</button>
+                            <button type="submit" class="btn btn-success btn-block loginbtn " style="background-color: #000000; padding: 20px;">Login</button>
                         </form>
 
                         {% endblock %}

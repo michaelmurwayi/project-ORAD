@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon
 		============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/logo/logo1.jpeg' %}">
     <!-- Google Fonts
 		============================================ -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
@@ -63,6 +63,35 @@
     <!-- modernizr JS
 		============================================ -->
     <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
+    <style>
+    .main-logo {
+        width: 200px; /* Set the width of the logo */
+        height: auto; /* Maintain aspect ratio */
+        margin: 0 auto; /* Center the logo horizontally */
+        padding:12px;
+        background-color: #000000;
+
+    }
+      .folder {
+        text-align: right; /* Align buttons to the right */
+        right:335px;
+    }
+
+    .button {
+        background-color: #FFFC72; /* Set background color */
+        padding: 10px 20px; /* Set padding */
+        margin: 5px; /* Add margin between buttons */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Add border radius */
+        cursor: pointer; /* Add pointer cursor */
+    }
+
+    .button span {
+        margin-left: 5px; /* Add space between icon and text */
+    
+    }
+    
+</style>
 </head>
 
 <body>
@@ -70,15 +99,16 @@
 		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
     <!-- Start Left menu area -->
+
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-                <a href="index.html"><img class="main-logo" src="{% static 'img/logo/logo.png' %}" alt="" /></a>
-                <strong><a href="index.html"><img src="{% static 'img/logo/logosn.png' %}" alt="" /></a></strong>
+                <a href="index.html"><img class="main-logo" src="{% static 'img/logo/logo1.jpeg' %}" alt="" /></a>
+                <strong><a href="index.html"><img src="{% static 'img/logo/logo1.jpeg' %}" alt="" /></a></strong>
             </div>
-            <div class="left-custom-menu-adp-wrap comment-scrollbar">
+            <div class="left-custom-menu-adp-wrap comment-scrollbar" style="background-color: #000000; padding: 20px;">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
-                    <ul class="metismenu" id="menu1">
+                    <ul class="metismenu" id="menu1" style="background-color: #000000; padding: 20px;" >
                         <li class="active">
                             <a class="has-arrow" href="#">
 								   <span class="educate-icon educate-home icon-wrap"></span>
@@ -96,12 +126,7 @@
                                        <ul>
                                            <li><a href="#">Architect</a></li>
                                             <li><a href="#">Engineer</a></li>
-                                            <li><a href="#">Interior Design</a>
-                                            <ul>
-                                               <li>
-                                               <a href="/home/mark/home/mark/project-django/ORAD group/media/pdf">Path to PDF</a>
-                                               </li>
-                                            </ul>
+                                            <li><a href="interior.html">Interior Design</a>
                                             </li>
                                             <li><a href="#">Project Manager</a></li>
                                             <li><a href="#">Quantity Surveyor</a></li>
@@ -129,10 +154,10 @@
                 </div>
             </div>
         </div>
-        <div class="header-advance-area">
-            <div class="header-top-area">
+        <div class="header-advance-area" style="background-color: #7FA35C; padding: 20px;">
+            <div class="header-top-area" style="background-color: #7FA35C; padding: 20px;">
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row" >
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="header-top-wraper">
                                 <div class="row">
@@ -287,7 +312,7 @@
                                                 <li class="nav-item dropdown">
                                                    <a href="#" class="nav-link dropdown-toggle" id="accountsDropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                                      Accounts 
-                                                     <i class="fa fa-caret-down"></i>
+                                                     {% comment %} <i class="fa fa-caret-down"></i> {% endcomment %}
                                                     </a>
                                                     <div class="dropdown-menu" aria-labelledby="accountsDropdown">
                                                        <li><a class="dropdown-item" href="{% url 'register' %}"><i class="fas fa-user-plus"></i> Signup</a></li>
@@ -315,22 +340,33 @@
                             <div class="mobile-menu">
                                 <nav id="dropdown">
                                     <ul class="mobile-menu-nav">
-                                        <li><a data-toggle="collapse" data-target="#Charts" href="#">Home <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                        </li>
-                                        <li><a href="events.html">Event</a></li>
-                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">All Files<span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <li><a data-toggle="collapse" data-target="#Charts" href="home">Home <span class="admin-project-icon edu-icon edu-down-arrow"></span></a></li>                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">All Files<span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                             <ul id="demoevent" class="collapse dropdown-header-top">
                                                 <li><a href="#">My Files</a>
                                                 </li>
                                                 <li><a href="#">Q.C</a>
+                                                 <ul>
+                                           <li><a href="#">Architect</a></li>
+                                            <li><a href="interior.html">Engineer</a></li>
+                                            <li><a href="#">Interior Design</a></li>
+                                            <li><a href="#">Project Manager</a></li>
+                                            <li><a href="#">Quantity Surveyor</a></li>
+                                        </ul>
                                                 </li>
                                                 <li><a href="#">Documents</a>
                                                 </li>
                                             </ul>
                                         </li>
-
+                                         <li><a href="#" class="dropdown-toggle" id="mobileAccountsDropdown" role="button" aria-haspopup="true" aria-expanded="false">Accounts <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                <ul class="sub-menu">
+                                    <li><a href="{% url 'register' %}">Signup</a></li>
+                                    <li><a href="{% url 'login' %}">Login</a></li>
+                                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                                </ul>
+                            </li>
 
                                     </ul>
+                                    
                                 </nav>
                             </div>
                         </div>
@@ -338,93 +374,80 @@
                 </div>
             </div>
             <!-- Mobile Menu end -->
-            <div class="breadcome-area">
+            {% comment %} <div class="breadcome-area">
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row" >
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="breadcome-list">
-                                <div class="row">
+                                {% comment %} <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <div class="breadcome-heading">
-                                            <form role="search" class="sr-input-func">
+                                            {% comment %} <form role="search" class="sr-input-func">
                                                 <input type="text" placeholder="Search..." class="search-int form-control">
                                                 <a href="#"><i class="fa fa-search"></i></a>
-                                            </form>
+                                            </form> {% endcomment %}
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <ul class="breadcome-menu">
-
-
-                                        </ul>
-                                    </div>
-                                </div>
+                                    
+                                </div> 
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
         </div>
-        <div>
-            <button class="button">
-                <div id="btn-container">
-                    <img src="{% static './img/folder.png' %}" alt="">
-                </div>
-                <span>My Files</span>
-            </button>
-            <button class="button">
-                <div id="btn-container">
-                    <img src="{% static './img/folder.png' %}" alt="">
-                </div>
-                <span>Upload</span>
-            </button>
-            {% comment %} <button class="button">
-                <div id="btn-container">
-                    <img src="{% static './img/folder.png' %}" alt="">
-                </div>
-                <span>Referencs</span>
-            </button> {% endcomment %}
-            <button class="button">
-                <div id="btn-container">
-                    <img src="{% static './img/folder.png' %}" alt="">
-                </div>
-                <span>Documents</span>
-            </button>
-        </div>
+      <div class="folder">
+    <button class="button">
+        <div id="one"></div>
+        <span>My Files</span>
+    </button>
+    <button class="button">
+        <div id="one"></div>
+        <span>Upload</span>
+    </button>
+    <button class="button">
+        <div id="one"></div>
+        <span>References</span>
+    </button> 
+    <button class="button">
+        <div id="one"></div>
+        <span>Documents</span>
+    </button>
+</div>
         {% comment %} <div id="documents-container">Files</div> {% endcomment %}
-        <div>
-            <p>favourites</p>
-            <hr class="solid">
-        </div>
-        <br>
-        <div>
-            <p>Bookmark</p>
-            <hr class="solid">
-        </div>
-        <br>
-
-  <div id="post-table-body" style="overflow-x: auto;"> 
+     <div style="margin-left: 250px;">
+    <p>favourites</p>
+    <hr class="solid">
+</div>
+<br>
+<div style="margin-left: 250px;">
+    <p>Bookmark</p>
+    <hr class="solid">
+</div>
+<br>
+<div id="post-table-body" style="overflow-x: auto; margin-left: 250px;">
     <table class="post-table" style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
-              <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Title</th>
-                <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Author</th>
-                <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Date</th>
-                <th style="border: 1px solid #dddddd; padding: 8px; text-align: left; background-color: #f2f2f2;">Document</th>
+                <th style="border: 1px solid #dddddd; padding: 8px;">Title</th>
+                <th style="border: 1px solid #dddddd; padding: 8px;">Content</th>
+                <th style="border: 1px solid #dddddd; padding: 8px;">Author</th>
+                <th style="border: 1px solid #dddddd; padding: 8px;">Date</th>
             </tr>
-             {% for post in post %} 
-            
         </thead>
-         
+        <tbody>
+            {% for post in posts %}
             <tr>
                 <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.text }}</td>
                 <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.content }}</td>
                 <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.author }}</td>
                 <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.pub_date }}</td>
             </tr>
-        {% endfor %} 
+            {% endfor %}
+        </tbody>
     </table>
 </div>
+
 
 <br><br>
 
@@ -495,9 +518,10 @@
     <script src="{% static    'js/main.js' %}"></script>
     <script>
     // JavaScript
+
 document.addEventListener('DOMContentLoaded', function () {
     // Fetch posts using fetch or any AJAX library
-    fetch('http://localhost:8000/fetch')
+    fetch('http://localhost:8000/posts')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -507,89 +531,88 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             renderPosts(data);
         })
-        .catch(error => {
-            console.error('Error fetching posts:', error);
-        });
+        
 });
 
 function renderPosts(posts) {
     const postTableBody = document.getElementById('post-table-body');
-    const headerCells = document.querySelectorAll('#post-table-header th');
+    const postTableBody = document.getElementById('post-table-body');
 
+// Create the table element
+const table = document.createElement('table');
+table.classList.add('post-table');
+table.style.width = '100%';
+table.style.borderCollapse = 'collapse';
 
-  posts.forEach(post => {
-    const row = document.createElement('tr');
+// Create the table header row
+const headerRow = document.createElement('tr');
 
-    // Title Cell
-    const titleCell = document.createElement('td');
-    titleCell.textContent = post.text;
-    titleCell.style.textAlign = 'left'; // Align content to the left
-    titleCell.style.padding = '8px'; // Add padding
-    titleCell.style.width = '20%'; // Set the width of the cell
-    row.appendChild(titleCell);
-
-   
-
-    // Content Cell
-    const contentCell = document.createElement('td');
-    contentCell.textContent = post.content;
-    contentCell.style.textAlign = 'left'; // Align content to the left
-    contentCell.style.padding = '8px'; // Add padding
-    contentCell.style.width = '20%'; // Set the width of the cell
-    row.appendChild(contentCell);
-
-    // Author Cell
-    const authorCell = document.createElement('td');
-    authorCell.textContent = post.author;
-    authorCell.style.textAlign = 'left'; // Align content to the left
-    authorCell.style.padding = '8px'; // Add padding
-    authorCell.style.width = '20%'; // Set the width of the cell
-    row.appendChild(authorCell);
-
-    // Date Cell
-    const dateCell = document.createElement('td');
-    dateCell.textContent = post.pub_date;
-    dateCell.style.textAlign = 'left'; // Align content to the left
-    dateCell.style.padding = '8px'; // Add padding
-    dateCell.style.width = '20%'; // Set the width of the cell
-    row.appendChild(dateCell);
-
-    // Document Cell
-    const documentCell = document.createElement('td');
-    documentCell.textContent = post.document;
-    documentCell.style.textAlign = 'left'; // Align content to the left
-    documentCell.style.padding = '8px'; // Add padding
-    documentCell.style.width = '20%'; // Set the width of the cell
-    row.appendChild(documentCell);
-
-    
-
-     // Add favorite icon
-    const favoriteIcon = document.createElement('span');
-    favoriteIcon.className = 'favorite-icon';
-    favoriteIcon.textContent = '⭐';
-    documentCell.appendChild(favoriteIcon);
-
-    const documentDownloadButton = createDownloadButton();
-    documentCell.appendChild(documentDownloadButton);
-
-    // Append the row to the table body
-    postTableBody.appendChild(row);
+// Create table headers
+const headers = ['Title', 'Content', 'Author', 'Date'];
+headers.forEach(headerText => {
+    const headerCell = document.createElement('th');
+    headerCell.textContent = headerText;
+    headerCell.style.border = '1px solid #dddddd';
+    headerCell.style.padding = '8px';
+    headerCell.style.textAlign = 'left';
+    headerCell.style.backgroundColor = '#f2f2f2';
+    headerRow.appendChild(headerCell);
 });
 
-function createDownloadButton() {
+// Append the header row to the table
+const thead = document.createElement('thead');
+thead.appendChild(headerRow);
+table.appendChild(thead);
+
+// Append the table to the table body
+postTableBody.appendChild(table);
+
+    // Clear existing table rows
+    postTableBody.innerHTML = '';
+
+    posts.forEach(post => {
+        const row = document.createElement('tr');
+
+         // Create table cells for post data
+        const titleCell = createTableCell(post.text);
+        const contentCell = createTableCell(post.content);
+        const authorCell = createTableCell(post.author);
+        const dateCell = createTableCell(post.pub_date);
+
+        // Append cells to the row
+        row.appendChild(titleCell);
+        row.appendChild(contentCell);
+        row.appendChild(authorCell);
+        row.appendChild(dateCell);
+
+        // Append the row to the table
+        table.appendChild(row);
+    });
+}
+
+// Function to create table cell
+function createTableCell(text) {
+    const cell = document.createElement('td');
+    cell.textContent = text;
+    cell.style.border = '1px solid #dddddd';
+    cell.style.padding = '8px';
+    cell.style.textAlign = 'left';
+    return cell;
+}
+
+
+function createDownloadButton(documentName) {
     const button = document.createElement('button');
     button.textContent = 'Download';
     button.classList.add('download-button');
     button.addEventListener('click', function() {
         // Replace "path/to/your/file.pdf" with the actual path to your file
-        const filePath = 'ORAD group/media/documents';
+        const filePath = 'ORAD group/media/documents/' + documentName; // Assuming documentName is the actual file name
         window.open(filePath, '_blank');
     });
     return button;
 }
 
-}
 
 
 

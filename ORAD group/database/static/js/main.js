@@ -117,33 +117,33 @@
 })(jQuery);
 
 // new js for the 
-$(document).ready(function() {
-    $('#registerBtn').click(function() {
-        var formData = {
-            'fullname': $('#fullname').val(),
-            'email': $('#email').val(),
-            'password': $('#password').val(),
-            'confirm_password': $('#confirm_password').val(),
-        };
+// $(document).ready(function() {
+//     $('#registerBtn').click(function() {
+//         var formData = {
+//             'fullname': $('#fullname').val(),
+//             'email': $('#email').val(),
+//             'password': $('#password').val(),
+//             'confirm_password': $('#confirm_password').val(),
+//         };
 
-        $.ajax({
-            type: 'POST',
-            url: '/signup/',  // Update with your actual endpoint URL
-            data: formData,
-            dataType: 'json',  // Expect JSON response
-            success: function(data) {
-                console.log('Registration successful:', data);
-                // Handle success response, e.g., redirect to login page
-                window.location.href = '/login/'; // Example redirection to login page
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                console.log('Registration failed:', errorThrown);
-                // Handle error response, e.g., display error message
-                $('#error-message').text('Registration failed: ' + errorThrown);
-            }
-        });
-    });
-});
+//         $.ajax({
+//             type: 'POST',
+//             url: '/signup/',  // Update with your actual endpoint URL
+//             data: formData,
+//             dataType: 'json',  // Expect JSON response
+//             success: function(data) {
+//                 console.log('Registration successful:', data);
+//                 // Handle success response, e.g., redirect to login page
+//                 window.location.href = '/login/'; // Example redirection to login page
+//             },
+//             error: function(xhr, textStatus, errorThrown) {
+//                 console.log('Registration failed:', errorThrown);
+//                 // Handle error response, e.g., display error message
+//                 $('#error-message').text('Registration failed: ' + errorThrown);
+//             }
+//         });
+//     });
+// });
 
 // function fetchData(endpoint) {
 //     fetch(endpoint)

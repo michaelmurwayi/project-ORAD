@@ -88,7 +88,7 @@ padding: 0
     text-decoration: none;
     outline: none;
     color: #000;
-    background-color:transparent;
+    background-color:#006DF0;
     border: none;
     border-radius: 15px;
     
@@ -336,7 +336,7 @@ hr.solid {
 	margin-left:4px;
 }
 .header-top-menu .navbar-nav>li>a:hover{
-	color: #03a9f4;
+	color: #0bf403;
 }
 .header-top-menu .navbar-nav>li .dropdown-menu a{
 	padding: 10px 20px;
@@ -371,7 +371,7 @@ hr.solid {
     background-color: transparent;
 }
 .header-right-info .nav.custon-set-tab>li>a:focus, .header-right-info .nav.custon-set-tab>li>a:hover, .header-right-info .nav.custon-set-tab>li>a:active {
-	color:#03a9f4;
+	color:#03f42f;
 }
 .header-right-info .nav.custon-set-tab>li>a {
 	color:#303030;
@@ -420,11 +420,11 @@ hr.solid {
 	padding:15px 20px;
 }
 .header-top-menu ul.header-top-nav li .dropdown-header-top li a:hover{
-	background:#03a9f4;
+	background:#03f42f;
 }
 .header-top-menu ul.header-top-nav li a{
 	font-size:14px;
-	color:#fff;
+	color:#070606;
 	text-decoration:none;
 	text-transform:capitalize;
 	display:block;
@@ -440,7 +440,7 @@ hr.solid {
    top:160%;
    left:-70px;
    width:330px;
-   background:#343434;
+   background:#090808;
    text-align:left;
    opacity:0;
    transition: all 0.5s ease 0s;
@@ -457,14 +457,14 @@ hr.solid {
 .header-right-info ul.header-right-menu li .dropdown-header-top.author-log li a{
    padding:10px 20px;
    display:block;
-   color:#303030;
+   color:#080707;
    font-size:14px;
 }
 .header-right-info ul.header-right-menu li .dropdown-header-top.author-log li .author-log-ic{
    margin-right:10px;
 }
 .header-right-info ul.header-right-menu li .dropdown-header-top.author-log li a:hover, .header-right-info ul.header-right-menu li .dropdown-header-top.author-log li a:focus{
-   background:#2b2a2a;
+   background:#000000;
 }
 .header-right-info ul.header-right-menu li .author-message-top{
    left:-133px;
@@ -508,7 +508,7 @@ hr.solid {
 	position:absolute;
 	height:5px;
 	width:5px;
-	background:#03a9f4;
+	background:#000000;
 	border-radius:50%;
 	top: -5px;
     right: 0px;
@@ -626,7 +626,7 @@ ul.message-menu li .message-content p, ul.notification-menu li .notification-con
 	color:#fff;
 }
 .header-top-menu .navbar-nav>li.open > a{
-	color:#03a9f4;
+	color:#000000;
 }
 .header-right-info ul.header-right-menu li .admintab-wrap.menu-setting-wrap.menu-setting-wrap-bg.dropdown-menu {
     background:#343434;
@@ -2059,7 +2059,7 @@ ul.two-part-sp li{
 }
 .header-top-area {
     position: fixed;
-    background: -webkit-linear-gradient(178deg, #e12503 0%, #85060c 100%);
+    background: -webkit-linear-gradient(178deg, #03e121 0%, #85060c 100%);
     background: linear-gradient(178deg, #e12503 0%, #85060c 100%);
     z-index: 99;
     left: 200px;

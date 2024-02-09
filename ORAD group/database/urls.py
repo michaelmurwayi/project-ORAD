@@ -29,7 +29,8 @@ urlpatterns = [
     # path('users/', RegisterAPIView.as_view()),    
     path ('login'  , TemplateView.as_view(template_name= 'login.html')),
     path('logout', TemplateView.as_view(template_name="logout.html")),
-    path('register', register, name='register')
+    path('register', register, name='register'),
+    path('interior', TemplateView.as_view(template_name='Interior.html'))
 
 
     # path('user/profile/', UserProfileView.as_view(), name='user-profile'),
@@ -38,4 +39,4 @@ urlpatterns = [
     # path('upload/', upload_document, name= 'upload-document'),
     # path('documents/',get_documents, name = 'get-documents'),
   
-]  + static(settings.MEDIA_URL, document_root=os.path.join(settings.BASE_DIR, 'media'))
+]
