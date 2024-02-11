@@ -22,7 +22,7 @@ import os
 from django.conf import settings
 from django.views.generic import TemplateView
 # Serve static and media files during development only
-from database.views import PostViewSet, serve_pdf
+from database.views import PostViewSet, serve_pdf, upload_file
 
 
 urlpatterns = [
@@ -34,9 +34,10 @@ urlpatterns = [
     path('logout/', views.logout, name="logout"),
     path('register', views.register_view, name="register"),
     path('interior.html', views.interior_view, name='interior_html'),
-    path('serve-pdf/<str:filename>/', serve_pdf, name='serve_pdf'),
+    path('serve_pdf/<str:filename>/', serve_pdf, name='serve_pdf'),
     path('fetch', PostViewSet.as_view, name='fetch'),
     path('posts/', PostViewSet.as_view({'post': 'create_post'}), name='create_post'),
+    path('upload-file/', upload_file, name='upload_file'),
 
 
 ]

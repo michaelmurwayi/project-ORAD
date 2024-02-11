@@ -113,8 +113,8 @@
 <!-- interior.html -->
 <div style="background-color: #000000; padding: 20px; margin: 0 auto;">
     <div id="pdf-container" style="max-width: 800px; margin: 0 auto;">
-        <embed src="{% url 'serve_pdf' filename='RC_FLOOR_SLAB_QC.pdf' %}" type="application/pdf" width="100%" height="800px" style="margin-bottom: 20px;"/>
-        <a href="{% url 'serve_pdf' filename='RC_FLOOR_SLAB_QC.pdf' %}" download="RC_FLOOR_SLAB_QC.pdf" class="btn btn-primary">Save</a>
+        <iframe src="{% url 'serve_pdf' filename='FLOOR_FINISH_QC_CHECKLIST.pdf' %}" type="application/pdf" width="100%" height="800px" style="margin-bottom: 20px;"></iframe>
+        <a href="{% url 'serve_pdf' filename='FLOOR_FINISH_QC_CHECKLIST.pdf' %}" download="RC_FLOOR_SLAB_QC.pdf" class="btn btn-primary">Save</a>
 
         <!-- Embed other PDF files similarly -->
         <br>

@@ -1,7 +1,7 @@
 from fileinput import filename
 from importlib.metadata import files
 from multiprocessing import context
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 
 # Create your views here.
@@ -21,6 +21,7 @@ from django.http import FileResponse
 import os
 from django.conf import settings
 from django.http import JsonResponse, HttpResponseNotFound, FileResponse
+from django.utils.timezone import now
 
 
 
@@ -70,28 +71,33 @@ def logout(request):
     return redirect("login")
 
 
-# def upload_document(request):
-#     if request.method == 'POST':
-#         # Handle file upload
-#         uploaded_file = request.FILES.get('filled_pdf')
-#         if uploaded_file:
-#             # Save the uploaded file to the server
-#             file_path = os.path.join(settings.MEDIA_ROOT, 'uploads', uploaded_file.name)
-#             with open(file_path, 'wb+') as destination:
-#                 for chunk in uploaded_file.chunks():
-#                     destination.write(chunk)
-#             # Perform further processing as needed
-#             return JsonResponse({'message': 'File uploaded successfully'}, status=201)
-#         else:
-#             return JsonResponse({'error': 'No file provided'}, status=400)
-#     else:
-#         return HttpResponseNotFound()
+def upload_file(request):
+    if request.method == 'POST' and request.FILES.get('file'):
+        uploaded_file = request.FILES['file']
+        
+        # Extract the filename from the uploaded file
+        filename = uploaded_file.name
+        
+        # Create a new Document object with the title set to the filename
+        document = Document(title=filename, file=uploaded_file)
+        document.save()
+
+        # Return a response indicating successful upload
+        return HttpResponse('File uploaded successfully')
+    else:
+        # Return a response with an error message if no file was provided
+        return HttpResponse('No file provided', status=400)
+
+
 
 def serve_pdf(request, filename):
     # Serve the PDF file to the client
     pdf_file_path = os.path.join(settings.MEDIA_ROOT, 'pdf', filename)
     if os.path.exists(pdf_file_path):
-        return FileResponse(open(pdf_file_path, 'rb'), content_type='application/pdf')
+        with open(pdf_file_path, 'rb') as pdf_file:
+            response = HttpResponse(pdf_file.read(), content_type='application/pdf')
+            response['Content-Disposition'] = f'inline; filename="{filename}"'
+            return response
     else:
         return HttpResponseNotFound()
 

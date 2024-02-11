@@ -138,7 +138,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CSRF_TRUSTED_ORIGINS = ['https://f221-41-80-113-37.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://a351-41-80-116-137.ngrok-free.app']
+CORS_ALLOW_ALL_ORIGINS = True  
+
+X_FRAME_OPTIONS = 'ALLOWALL'
+
 
 # settings.py
 

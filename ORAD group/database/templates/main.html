@@ -401,10 +401,17 @@
         <div id="one"></div>
         <span>My Files</span>
     </button>
-    <button class="button">
+<form method="post" enctype="multipart/form-data" action="/upload-file/" id="uploadForm">
+    {% csrf_token %}
+    <button class="button" id="uploadButton" type="button">
         <div id="one"></div>
         <span>Upload</span>
     </button>
+    <input type="file" name="file" id="fileInput" style="display: none;"> <!-- Hidden file input -->
+</form>
+
+
+
     <button class="button">
         <div id="one"></div>
         <span>References</span>
@@ -520,8 +527,28 @@
     // JavaScript
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Get the upload button and file input
+    const uploadButton = document.getElementById('uploadButton');
+    const fileInput = document.getElementById('fileInput');
+    
+    // Add click event listener to the upload button
+    uploadButton.addEventListener('click', function() {
+        // Trigger click event on the file input
+        fileInput.click();
+    });
+
+    // Add change event listener to the file input to submit the form when a file is selected
+    fileInput.addEventListener('change', function() {
+        // Submit the form when a file is selected
+        document.getElementById('uploadForm').submit();
+    });
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
     // Fetch posts using fetch or any AJAX library
-    fetch('http://localhost:8000/posts')
+    fetch('http://localhost:8000/posts/')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -535,7 +562,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function renderPosts(posts) {
-    const postTableBody = document.getElementById('post-table-body');
     const postTableBody = document.getElementById('post-table-body');
 
 // Create the table element
