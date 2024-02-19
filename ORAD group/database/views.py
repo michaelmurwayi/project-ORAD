@@ -101,6 +101,23 @@ def serve_pdf(request, filename):
     else:
         return HttpResponseNotFound()
 
+def fetch_documents(request):
+    if request.method == 'GET':
+        # Retrieve all documents from the database
+        documents = Document.objects.all()
+        
+        # Serialize the documents data
+        serialized_documents = [{
+            'title': document.title,
+            'file': document.file.url,  # Assuming you want to display the file URL
+            'uploaded_at': document.uploaded_at.strftime('%Y-%m-%d %H:%M:%S')  # Format the date as needed
+        } for document in documents]
+        
+        # Return the serialized documents as JSON response
+        return JsonResponse(serialized_documents, safe=False)
+    else:
+        # Handle other HTTP methods if needed
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
 class CustomUserViewSet(viewsets.ModelViewSet):

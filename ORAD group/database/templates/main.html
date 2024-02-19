@@ -91,6 +91,67 @@
     
     }
     
+    #post-table-body {
+    margin: 0 auto; /* Center the table horizontally */
+}
+    .post-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.post-table th, .post-table td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    padding-left: 204px;
+}
+
+.post-table th {
+    background-color: #7FA35C;
+    padding-left: 304px;
+}
+
+.folder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.button {
+    margin-right: 10px; /* Adjust spacing between buttons */
+    margin-bottom: 10px; /* Adjust vertical spacing between buttons */
+}
+
+/* Media query for screens smaller than 768px (typical tablets and mobiles) */
+@media (max-width: 768px) {
+    .folder {
+        flex-direction: row; /* Arrange buttons vertically */
+        align-items: center; /* Align buttons to the centre */
+        justify-content: center; /*
+    }
+
+    .button {
+        margin-right: 0; /* Remove horizontal margin */
+    }
+    
+}
+@media (min-width: 769px) {
+    .folder {
+        flex-direction: row; /* Arrange buttons horizontally */
+        align-items: center; /* Align buttons to the center */
+        justify-content: center; /* Align buttons horizontally to the center */
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .post-table th,
+    .post-table td{
+        padding: 8px; /* Adjust padding for smaller screens */
+        text-align: center; /* Center align text */
+
+    }
+}
+
+    
 </style>
 </head>
 
@@ -106,7 +167,7 @@
                 <a href="index.html"><img class="main-logo" src="{% static 'img/logo/logo1.jpeg' %}" alt="" /></a>
                 <strong><a href="index.html"><img src="{% static 'img/logo/logo1.jpeg' %}" alt="" /></a></strong>
             </div>
-            <div class="left-custom-menu-adp-wrap comment-scrollbar" style="background-color: #000000; padding: 20px;">
+            <div class="left-custom-menu-adp-wrap comment-scrollbar" style="background-color: #000000; padding: 20px; height: 964px;">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
                     <ul class="metismenu" id="menu1" style="background-color: #000000; padding: 20px;" >
                         <li class="active">
@@ -185,130 +246,7 @@
                                     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                         <div class="header-right-info">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">
-                                                {% comment %} <li class="nav-item dropdown">
-                                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="educate-icon educate-message edu-chat-pro" aria-hidden="true"></i><span class="indicator-ms"></span></a>
-                                                    <div role="menu" class="author-message-top dropdown-menu animated zoomIn">
-                                                        <div class="message-single-top">
-                                                            <h1>Message</h1>
-                                                        </div>
-                                                        <ul class="message-menu">
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="message-img">
-                                                                        <img src="{% static 'img/contact/1.jpg' %}" alt="">
-                                                                    </div>
-                                                                    <div class="message-content">
-                                                                        <span class="message-date">16 Sept</span>
-                                                                        <h2>Advanda Cro</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="message-img">
-                                                                        <img src="{% static 'img/contact/4.jpg' %}" alt="">
-                                                                    </div>
-                                                                    <div class="message-content">
-                                                                        <span class="message-date">16 Sept</span>
-                                                                        <h2>Sulaiman din</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="message-img">
-                                                                        <img src="{% static 'img/contact/3.jpg' %}" alt="">
-                                                                    </div>
-                                                                    <div class="message-content">
-                                                                        <span class="message-date">16 Sept</span>
-                                                                        <h2>Victor Jara</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="message-img">
-                                                                        <img src="{% static 'img/contact/2.jpg' %}" alt="">
-                                                                    </div>
-                                                                    <div class="message-content">
-                                                                        <span class="message-date">16 Sept</span>
-                                                                        <h2>Victor Jara</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="message-view">
-                                                            <a href="#">View All Messages</a>
-                                                        </div>
-                                                    </div>
-                                                </li> {% endcomment %}
-                                                <li class="nav-item"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-                                                  <img src="{% static 'img/product/pro4.jpg' %}" alt="" />
-                                                <span class="indicator-nt"></span>
-                                                </a>
-                                                    <div role="menu" class="notification-author dropdown-menu animated zoomIn">
-                                                        <div class="notification-single-top">
-                                                            <h1>Notifications</h1>
-                                                        </div>
-                                                        <ul class="notification-menu">
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="notification-icon">
-                                                                        <i class="educate-icon educate-checked edu-checked-pro admin-check-pro" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <div class="notification-content">
-                                                                        <span class="notification-date">16 Sept</span>
-                                                                        <h2>Advanda Cro</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="notification-icon">
-                                                                        <i class="fa fa-cloud edu-cloud-computing-down" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <div class="notification-content">
-                                                                        <span class="notification-date">16 Sept</span>
-                                                                        <h2>Sulaiman din</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="notification-icon">
-                                                                        <i class="fa fa-eraser edu-shield" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <div class="notification-content">
-                                                                        <span class="notification-date">16 Sept</span>
-                                                                        <h2>Victor Jara</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="notification-icon">
-                                                                        <i class="fa fa-line-chart edu-analytics-arrow" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <div class="notification-content">
-                                                                        <span class="notification-date">16 Sept</span>
-                                                                        <h2>Victor Jara</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="notification-view">
-                                                            <a href="#">View All Notification</a>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                                
                                                 <li class="nav-item dropdown">
                                                    <a href="#" class="nav-link dropdown-toggle" id="accountsDropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                                      Accounts 
@@ -368,6 +306,7 @@
                                     </ul>
                                     
                                 </nav>
+                                
                             </div>
                         </div>
                     </div>
@@ -397,7 +336,7 @@
             </div> 
         </div>
       <div class="folder">
-    <button class="button">
+    <button class="button" href="main.html">
         <div id="one"></div>
         <span>My Files</span>
     </button>
@@ -412,9 +351,9 @@
 
 
 
-    <button class="button">
+    <button class="button" href="home">
         <div id="one"></div>
-        <span>References</span>
+        <span>Projects</span>
     </button> 
     <button class="button">
         <div id="one"></div>
@@ -422,7 +361,7 @@
     </button>
 </div>
         {% comment %} <div id="documents-container">Files</div> {% endcomment %}
-     <div style="margin-left: 250px;">
+     {% comment %} <div style="margin-left: 250px;">
     <p>favourites</p>
     <hr class="solid">
 </div>
@@ -430,30 +369,23 @@
 <div style="margin-left: 250px;">
     <p>Bookmark</p>
     <hr class="solid">
-</div>
+</div> {% endcomment %}
 <br>
-<div id="post-table-body" style="overflow-x: auto; margin-left: 250px;">
-    <table class="post-table" style="width: 100%; border-collapse: collapse;">
+<div id="post-table-body" >
+    <table class="post-table"  >
         <thead>
             <tr>
-                <th style="border: 1px solid #dddddd; padding: 8px;">Title</th>
-                <th style="border: 1px solid #dddddd; padding: 8px;">Content</th>
-                <th style="border: 1px solid #dddddd; padding: 8px;">Author</th>
-                <th style="border: 1px solid #dddddd; padding: 8px;">Date</th>
+                <th >Title</th>
+                <th >File</th>
+                <th >Date</th>
             </tr>
         </thead>
         <tbody>
-            {% for post in posts %}
-            <tr>
-                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.text }}</td>
-                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.content }}</td>
-                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.author }}</td>
-                <td style="border: 1px solid #dddddd; padding: 8px;">{{ post.pub_date }}</td>
-            </tr>
-            {% endfor %}
+        
         </tbody>
     </table>
 </div>
+
 
 
 <br><br>
@@ -548,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     // Fetch posts using fetch or any AJAX library
-    fetch('http://localhost:8000/posts/')
+    fetch('http://localhost:8000/fetch-documents/')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -564,79 +496,32 @@ document.addEventListener('DOMContentLoaded', function () {
 function renderPosts(posts) {
     const postTableBody = document.getElementById('post-table-body');
 
-// Create the table element
-const table = document.createElement('table');
-table.classList.add('post-table');
-table.style.width = '100%';
-table.style.borderCollapse = 'collapse';
-
-// Create the table header row
-const headerRow = document.createElement('tr');
-
-// Create table headers
-const headers = ['Title', 'Content', 'Author', 'Date'];
-headers.forEach(headerText => {
-    const headerCell = document.createElement('th');
-    headerCell.textContent = headerText;
-    headerCell.style.border = '1px solid #dddddd';
-    headerCell.style.padding = '8px';
-    headerCell.style.textAlign = 'left';
-    headerCell.style.backgroundColor = '#f2f2f2';
-    headerRow.appendChild(headerCell);
-});
-
-// Append the header row to the table
-const thead = document.createElement('thead');
-thead.appendChild(headerRow);
-table.appendChild(thead);
-
-// Append the table to the table body
-postTableBody.appendChild(table);
-
     // Clear existing table rows
-    postTableBody.innerHTML = '';
+    postTableBody.querySelector('tbody').innerHTML = '';
 
+    // Create table rows for each document
     posts.forEach(post => {
         const row = document.createElement('tr');
 
-         // Create table cells for post data
-        const titleCell = createTableCell(post.text);
-        const contentCell = createTableCell(post.content);
-        const authorCell = createTableCell(post.author);
-        const dateCell = createTableCell(post.pub_date);
+        // Create table cells for document data
+        const titleCell = createTableCell(post.title);
+        const fileCell = createTableCell(`<a href="${post.file}" target="_blank">${post.title}</a>`); // Assuming file is a URL to the document
+        const dateCell = createTableCell(post.uploaded_at);
 
         // Append cells to the row
         row.appendChild(titleCell);
-        row.appendChild(contentCell);
-        row.appendChild(authorCell);
+        row.appendChild(fileCell);
         row.appendChild(dateCell);
 
-        // Append the row to the table
-        table.appendChild(row);
+        // Append the row to the table body
+        postTableBody.querySelector('tbody').appendChild(row);
     });
 }
 
-// Function to create table cell
 function createTableCell(text) {
     const cell = document.createElement('td');
-    cell.textContent = text;
-    cell.style.border = '1px solid #dddddd';
-    cell.style.padding = '8px';
-    cell.style.textAlign = 'left';
+    cell.innerHTML = text;
     return cell;
-}
-
-
-function createDownloadButton(documentName) {
-    const button = document.createElement('button');
-    button.textContent = 'Download';
-    button.classList.add('download-button');
-    button.addEventListener('click', function() {
-        // Replace "path/to/your/file.pdf" with the actual path to your file
-        const filePath = 'ORAD group/media/documents/' + documentName; // Assuming documentName is the actual file name
-        window.open(filePath, '_blank');
-    });
-    return button;
 }
 
 
