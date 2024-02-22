@@ -1,4 +1,5 @@
 from enum import unique
+from os import name
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.base_user import BaseUserManager
@@ -85,6 +86,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class Document(models.Model):
     title = models.CharField(max_length=100)
     file = models.FileField(upload_to="documents/", null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+class Site(models.Model):
+    name = models.CharField(max_length=300)
+
+class QCDocument(models.Model):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    document = models.FileField(upload_to='documents/')
+    uploaded_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
 

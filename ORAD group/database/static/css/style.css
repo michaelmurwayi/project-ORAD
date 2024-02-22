@@ -2059,8 +2059,6 @@ ul.two-part-sp li{
 }
 .header-top-area {
     position: fixed;
-    background: -webkit-linear-gradient(178deg, #03e121 0%, #85060c 100%);
-    background: linear-gradient(178deg, #e12503 0%, #85060c 100%);
     z-index: 99;
     left: 200px;
     right: 0;
@@ -3688,7 +3686,7 @@ element.style {
 div#sparklinehome canvas {
     width: 100% !important;
 }
-.header-top-area {
+.header1-top-area {
     background: #006DF0;
 }
 .sidebar-nav .metismenu{

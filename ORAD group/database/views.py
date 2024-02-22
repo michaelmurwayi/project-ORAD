@@ -119,6 +119,10 @@ def fetch_documents(request):
         # Handle other HTTP methods if needed
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
+def site_list(request):
+    sites = Site.objects.all()
+    return render(request, 'sites.html', {'sites': sites})
+
 
 class CustomUserViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
@@ -148,7 +152,15 @@ def login_view(request):
 
 def interior_view(request):
     context={}
-    return render (request, 'interior.html',context) 
+    return render (request, 'interior.html',context)
+
+def project_view(request):
+    context={}
+    return render (request, 'projects.html', context)
+
+def sites_view(request):
+    context={}
+    return render (request, 'sites.html', context)
 
 # @api_view(['POST'])
 # @permission_classes([AllowAny])

@@ -143,12 +143,11 @@
 }
 
 @media screen and (max-width: 600px) {
-    .post-table th,
-    .post-table td{
-        padding: 8px; /* Adjust padding for smaller screens */
-        text-align: center; /* Center align text */
-
-    }
+  .post-table th, .post-table td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: center;
+}
 }
 
     
@@ -335,6 +334,7 @@
                 </div>
             </div> 
         </div>
+        
       <div class="folder">
     <button class="button" href="main.html">
         <div id="one"></div>
@@ -348,17 +348,17 @@
     </button>
     <input type="file" name="file" id="fileInput" style="display: none;"> <!-- Hidden file input -->
 </form>
-
-
-
-    <button class="button" href="home">
+<a href="projects.html">
+    <button class="button">
         <div id="one"></div>
         <span>Projects</span>
     </button> 
-    <button class="button">
+</a>    
+    <button class="button" href="home">
         <div id="one"></div>
         <span>Documents</span>
     </button>
+    
 </div>
         {% comment %} <div id="documents-container">Files</div> {% endcomment %}
      {% comment %} <div style="margin-left: 250px;">

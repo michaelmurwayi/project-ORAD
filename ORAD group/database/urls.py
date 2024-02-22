@@ -30,7 +30,9 @@ urlpatterns = [
     path ('login'  , TemplateView.as_view(template_name= 'login.html')),
     path('logout', TemplateView.as_view(template_name="logout.html")),
     path('register', register, name='register'),
-    path('interior', TemplateView.as_view(template_name='Interior.html'))
+    path('interior', TemplateView.as_view(template_name='Interior.html')),
+    path('projects', TemplateView.as_view(template_name='projects.html')),
+    path('sites', TemplateView.as_view(template_name='sites.html'))
 
 
     # path('user/profile/', UserProfileView.as_view(), name='user-profile'),

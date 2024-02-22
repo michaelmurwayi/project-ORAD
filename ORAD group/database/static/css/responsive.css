@@ -316,6 +316,26 @@
 	#myTab3.tab-review-design li a, #myTabedu1.tab-review-design li a{
 		padding-right: 30px;
 	}
+	.folder {
+        flex-direction: row; /* Arrange buttons vertically */
+        align-items: center; /* Align buttons to the centre */
+        justify-content: center; /*
+    }
+
+    .button {
+        margin-right: 0; /* Remove horizontal margin */
+    }
+	.folder {
+        flex-direction: row; /* Arrange buttons horizontally */
+        align-items: center; /* Align buttons to the center */
+        justify-content: center; /* Align buttons horizontally to the center */
+    }
+	.post-table th,
+    .post-table td{
+        padding: 8px; /* Adjust padding for smaller screens */
+        text-align: center; /* Center align text */
+
+    }
 }
 
  
@@ -706,6 +726,26 @@
 	.comon-method{
 		margin-top:15px;
 	}
+	.folder {
+        flex-direction: row; /* Arrange buttons vertically */
+        align-items: center; /* Align buttons to the centre */
+        justify-content: center; /*
+    }
+
+    .button {
+        margin-right: 0; /* Remove horizontal margin */
+    }
+	.folder {
+        flex-direction: row; /* Arrange buttons horizontally */
+        align-items: center; /* Align buttons to the center */
+        justify-content: center; /* Align buttons horizontally to the center */
+    }
+	.post-table th,
+    .post-table td{
+        padding: 8px; /* Adjust padding for smaller screens */
+        text-align: center; /* Center align text */
+
+    }
 }
  
 /* Large Mobile :480px. */
@@ -752,5 +792,25 @@
 	.profile-img {
 		text-align: center;
 	}
+	.folder {
+        flex-direction: row; /* Arrange buttons vertically */
+        align-items: center; /* Align buttons to the centre */
+        justify-content: center; /*
+    }
+
+    .button {
+        margin-right: 0; /* Remove horizontal margin */
+    }
+	.folder {
+        flex-direction: row; /* Arrange buttons horizontally */
+        align-items: center; /* Align buttons to the center */
+        justify-content: center; /* Align buttons horizontally to the center */
+    }
+	.post-table th,
+    .post-table td{
+        padding: 8px; /* Adjust padding for smaller screens */
+        text-align: center; /* Center align text */
+
+    }
 }
  
