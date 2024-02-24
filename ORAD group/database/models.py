@@ -91,11 +91,17 @@ class Document(models.Model):
 class Site(models.Model):
     name = models.CharField(max_length=300)
 
+    def __str__(self):
+        return self.name
+
 class QCDocument(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
-    document = models.FileField(upload_to='documents/')
+    document = models.FileField(upload_to="documents/")
     uploaded_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.document.name
 
 
 

@@ -71,7 +71,7 @@
 }
 
 .container {
-    max-width: 800px;
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
 }
@@ -132,6 +132,73 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+.site-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.site-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.upload-container {
+    margin-top: 10px;
+}
+
+.upload-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+    background-color: #0056b3;
+}
+
+.button-container {
+    margin-top: 10px;
+}
+
+.view-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.view-button:hover {
+    background-color: #218838;
+}
+
+.documents {
+    margin-top: 10px;
+}
+
+.documents a {
+    display: block;
+    margin-bottom: 5px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.documents a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
 </style>
 </head>
 
@@ -169,25 +236,47 @@
 
  
 </div>
- <div class="container">
+
+    <!-- Modal for displaying site details -->
+  <div class="container">
         <h1>Site QC Documents</h1>
         <div id="siteList" class="site-list">
-            <!-- Site list will be populated dynamically -->
+            <!-- Render site cards dynamically -->
+            <!-- Sample site data and form data -->
+            <div class="site-card">
+                <h3></h3>
+                <div class="upload-container">
+                    <form method="post" enctype="multipart/form-data" action="/upload-file/" class="uploadForm">
+                        <!-- CSRF token -->
+                        <input type="hidden" name="csrfmiddlewaretoken" value="your_csrf_token_here">
+                        <input type="file" name="file" class="fileInput" style="display: none;">
+                        <button class="upload-button" type="submit" data-id="1">
+                            <div id="one"></div>
+                            <span>Upload Document</span>
+                        </button>
+                    </form>
+                    <div class="button-container">
+                        <button class="view-button" data-id="1">View Documents</button>
+                    </div>
+                    <div class="documents"></div>
+                </div>
+            </div>
+            <!-- End of Sample site data -->
+
+            <!-- You can add more site cards here -->
         </div>
     </div>
 
-    <div id="uploadFormModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Upload QC Document</h2>
-            <form id="uploadForm">
-                <label for="document">Choose file:</label>
-                <input type="file" id="document" name="document" required>
-                <button type="submit">Upload</button>
-            </form>
-        </div>
+   
+ <!-- Popup card for displaying documents -->
+<div id="popupCard" class="popup-card">
+    <span class="close">&times;</span>
+    <div class="popup-content">
+        <h2></h2>
+        <div id="documentsList"></div>
     </div>
- 
+</div>
+
 
 {% load static %}
     <!-- jquery
@@ -248,12 +337,50 @@
     <!-- main JS
 		============================================ -->
     <script src="{% static    'js/main.js' %}"></script>
-    <script>// Sample site data
+    <script>
+    // Sample site data
 const sites = [
-    { id: 1, name: 'Tatu City', documents: [] },
-    { id: 2, name: 'Mirema', documents: [] },
-    { id: 3, name: 'St Joseph', documents: [] }
+    { id: 1, name: 'ACK ST James Cathedral,Kiambu', documents: [] },
+    { id: 2, name: 'ACK ST Peter Cathedral,Kenol', documents: [] },
+    { id: 3, name: 'ACK Mariiki', documents: [] },
+    { id: 4, name: 'AIC WOTE,Makueni', documents: [] },
+    { id: 5, name: 'ST Joseph W. Catholic', documents: [] },
+    { id: 6, name: 'Mirema Apartments', documents: [] },
+    { id: 7, name: 'Ruiru Mud Block', documents: [] },
+    { id: 8, name: 'R110 Tatu City Maisonnette', documents: [] },
+    { id: 9, name: 'Kamulu Maisonnette', documents: [] },
+    { id: 10, name: 'Kericho Bungalow', documents: [] }
 ];
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Add event listeners to all "View Documents" buttons
+    const viewButtons = document.querySelectorAll('.view-button');
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const siteId = this.getAttribute('data-id');
+            fetchDocumentsForSite(siteId);
+        });
+    });
+});
+
+
+// Function to display documents in a popup
+function displayDocumentsPopup(documents) {
+    // Populate the popup window with documents
+    const popup = document.getElementById('popupWindow');
+    const documentsContainer = popup.querySelector('.documents');
+    documentsContainer.innerHTML = ''; // Clear previous content
+
+    // Create HTML elements for each document
+    documents.forEach(document => {
+        const documentItem = document.createElement('div');
+        documentItem.textContent = document.name; // Adjust based on your document structure
+        documentsContainer.appendChild(documentItem);
+    });
+
+    // Show the popup window
+    popup.style.display = 'block';
+}
 
 // Function to render the list of sites
 function renderSiteList() {
@@ -265,13 +392,50 @@ function renderSiteList() {
         siteCard.classList.add('site-card');
         siteCard.innerHTML = `
             <h3>${site.name}</h3>
-            <button class="upload-button" data-id="${site.id}">Upload Document</button>
+            <div class="upload-container">
+                <form method="post" enctype="multipart/form-data" action="/upload-file/" class="uploadForm">
+                {% csrf_token %}
+                    <input type="file" name="file" class="fileInput" style="display: none;">
+                    <button class="upload-button" type="button" data-id="${site.id}">
+                        <div id="one"></div>
+                        <span>Upload Document</span>
+                    </button>
+                </form>
+                <div class="button-container">
+                    <button class="view-button" data-id="${site.id}">View Documents</button>
+                    </div>
+                   <div class="documents"></div>
+            </div>
             <div class="documents"></div>
         `;
         siteList.appendChild(siteCard);
 
+          // Add event listeners for view buttons
+    document.querySelectorAll('.view-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const siteId = button.getAttribute('data-id');
+            fetchAndDisplayDocuments(siteId);
+        });
+    });
+
+        // Add event listener to upload button
         const uploadButton = siteCard.querySelector('.upload-button');
-        uploadButton.addEventListener('click', () => openUploadModal(site.id));
+        uploadButton.addEventListener('click', () => {
+            const fileInput = siteCard.querySelector('.fileInput');
+            fileInput.click();
+        });
+
+        // Add event listener to file input
+        const fileInput = siteCard.querySelector('.fileInput');
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const siteId = uploadButton.getAttribute('data-id');
+                uploadDocument(siteId, file);
+            } else {
+                alert('Please select a file to upload.');
+            }
+        });
     });
 }
 
@@ -307,6 +471,87 @@ function openUploadModal(siteId) {
         }
     };
 }
+document.addEventListener('DOMContentLoaded', function () {
+    // Get the upload buttons and file inputs for each site
+    const uploadButtons = document.querySelectorAll('.upload-button');
+    const fileInputs = document.querySelectorAll('.fileInput');
+    
+    // Add click event listener to each upload button
+    uploadButtons.forEach(uploadButton => {
+        uploadButton.addEventListener('click', function() {
+            // Get the corresponding file input for this site
+            const fileInput = this.parentElement.querySelector('.fileInput');
+            // Trigger click event on the file input
+            fileInput.click();
+        });
+    });
+
+    // Add change event listener to each file input to submit the form when a file is selected
+    fileInputs.forEach(fileInput => {
+        fileInput.addEventListener('change', function() {
+            // Get the corresponding form for this site
+            const uploadForm = this.parentElement;
+            // Submit the form when a file is selected
+            uploadForm.submit();
+        });
+    });
+
+    // Fetch documents for display
+    fetchDocuments();
+});
+
+// Function to fetch documents for a specific site
+function fetchDocumentsForSite(siteId) {
+    fetch(`http://localhost:8000/qc-documents/?site_id=${siteId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Render the documents in the popup card
+            renderDocumentsInPopup(data);
+        })
+        .catch(error => {
+            console.error('Error fetching documents:', error.message);
+        });
+}
+
+// Function to render documents in the popup card
+function renderDocumentsInPopup(documents) {
+    const documentsList = document.getElementById('documentsList');
+    documentsList.innerHTML = ''; // Clear previous content
+
+    documents.forEach(document => {
+        const documentLink = document.createElement('a');
+        documentLink.href = document.document;
+        documentLink.textContent = document.document_name;
+        documentLink.setAttribute('download', '');
+        
+        const br = document.createElement('br');
+
+        documentsList.appendChild(documentLink);
+        documentsList.appendChild(br);
+    });
+
+    // Display the popup card
+    const popupCard = document.getElementById('popupCard');
+    popupCard.style.display = 'block';
+}
+
+// Event listener for closing the popup card
+document.querySelector('.close').addEventListener('click', function() {
+    document.getElementById('popupCard').style.display = 'none';
+});
+
+// Event listener for "View" button/link in each site card
+document.querySelectorAll('.view-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const siteId = this.getAttribute('data-id');
+        fetchDocumentsForSite(siteId);
+    });
+});
 
 // Function to upload the document
 function uploadDocument(siteId, file) {

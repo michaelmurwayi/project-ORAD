@@ -22,7 +22,7 @@ import os
 from django.conf import settings
 from django.views.generic import TemplateView
 # Serve static and media files during development only
-from database.views import PostViewSet, serve_pdf, upload_file, fetch_documents
+from database.views import PostViewSet, serve_pdf, upload_file, fetch_documents, qc_document
 
 
 urlpatterns = [
@@ -41,6 +41,7 @@ urlpatterns = [
     path('posts/', PostViewSet.as_view({'post': 'create_post'}), name='create_post'),
     path('upload-file/', upload_file, name='upload_file'),
     path('fetch-documents/', fetch_documents, name='fetch_documents'),
+    path('qc-documents/', views.qc_document, name='qc_documents'),
 
 
 

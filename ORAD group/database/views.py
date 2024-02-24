@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from .models import CustomUser
-from .serializers import CustomUserSerializer, DocumentSerializer
+from .serializers import CustomUserSerializer, DocumentSerializer, QCDocumentSerializer
 
 from database.models import *
 from rest_framework import permissions, viewsets
@@ -22,7 +22,7 @@ import os
 from django.conf import settings
 from django.http import JsonResponse, HttpResponseNotFound, FileResponse
 from django.utils.timezone import now
-
+from django.views.decorators.csrf import csrf_protect
 
 
 def register(request):
@@ -70,7 +70,7 @@ def login(request):
 def logout(request):
     return redirect("login")
 
-
+@csrf_protect
 def upload_file(request):
     if request.method == 'POST' and request.FILES.get('file'):
         uploaded_file = request.FILES['file']
@@ -119,9 +119,32 @@ def fetch_documents(request):
         # Handle other HTTP methods if needed
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-def site_list(request):
-    sites = Site.objects.all()
-    return render(request, 'sites.html', {'sites': sites})
+def qc_document(request):
+    if request.method == 'GET':
+        # Retrieve all QC documents from the database
+        documents = QCDocument.objects.all()
+        
+        # Serialize the documents data
+        serialized_documents = []
+        for document in documents:
+            serialized_documents.append({
+                'id': document.id,
+                'document': document.document.url,
+                'uploaded_at': document.uploaded_at.strftime('%Y-%m-%d %H:%M:%S')
+            })
+
+        # Return the serialized documents as JSON response
+        return JsonResponse(serialized_documents, safe=False)
+      
+      
+
+
+
+
+
+
+
+
 
 
 class CustomUserViewSet(viewsets.ModelViewSet):
