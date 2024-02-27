@@ -292,10 +292,11 @@
             <div class="popup" id="popup">
                 <div class="popup-card">
                   <span class="close-btn" onclick="togglePopup()">&times;</span>
-                  <form>
+                  <form method="POST" action="{% url 'database:sites' %}">
+                    {% csrf_token %}
                     <!-- Site Name -->
                     <div data-mdb-input-init class="form-outline mb-4">
-                      <input type="text" id="name" class="form-control" />
+                      <input type="text" id="site_name" name="site_name" class="form-control" />
                       <label class="form-label" for="name">Site Name</label>
                     </div>
                     
@@ -307,6 +308,7 @@
               
       </nav>
     <!-- Modal for displaying site details -->
+   
   <div class="container">
         <h1>Site QC Documents</h1>
         <div id="siteList" class="site-list">

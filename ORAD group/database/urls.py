@@ -8,6 +8,7 @@ from database.views import  PostViewSet
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import *
 
 
 router = routers.DefaultRouter()
@@ -32,7 +33,7 @@ urlpatterns = [
     path('register', register, name='register'),
     path('interior', TemplateView.as_view(template_name='Interior.html')),
     path('projects', TemplateView.as_view(template_name='projects.html')),
-    path('sites', TemplateView.as_view(template_name='sites.html'))
+    path('sites', SiteView.as_view(), name='sites')
 
 
     # path('user/profile/', UserProfileView.as_view(), name='user-profile'),

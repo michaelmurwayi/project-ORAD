@@ -23,7 +23,8 @@ from django.conf import settings
 from django.http import JsonResponse, HttpResponseNotFound, FileResponse
 from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_protect
-
+from django.views.generic import TemplateView
+from .models import *
 
 def register(request):
     if request.method == 'POST':
@@ -136,16 +137,6 @@ def qc_document(request):
         # Return the serialized documents as JSON response
         return JsonResponse(serialized_documents, safe=False)
       
-      
-
-
-
-
-
-
-
-
-
 
 class CustomUserViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
@@ -181,9 +172,36 @@ def project_view(request):
     context={}
     return render (request, 'projects.html', context)
 
-def sites_view(request):
-    context={}
-    return render (request, 'sites.html', context)
+class SiteView(TemplateView):
+    template_name = 'sites.html'
+
+    def get(self,request):
+        context = {
+            "message": ""
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        
+        if 'site_name' in request.POST:
+            site_name = request.POST["site_name"]
+            site = Site(name=site_name)
+            site.save()
+
+            # create folder for site in media directory
+            site_id = site.pk
+            directory_path = f"{os.path.join(settings.MEDIA_ROOT)}site/ {site_id}"
+
+            # Check if the directory already exists
+            if not os.path.exists(directory_path):
+                # Create the directory
+                os.makedirs(directory_path)
+
+        
+        context = {
+            "message": "Site Successfully Added"
+        }
+        return render(request, self.template_name, context)
 
 # @api_view(['POST'])
 # @permission_classes([AllowAny])
