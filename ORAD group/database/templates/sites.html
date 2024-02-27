@@ -292,8 +292,16 @@
             <div class="popup" id="popup">
                 <div class="popup-card">
                   <span class="close-btn" onclick="togglePopup()">&times;</span>
-                  <h2>Popup Title</h2>
-                  <p>Popup Content</p>
+                  <form>
+                    <!-- Site Name -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <input type="text" id="name" class="form-control" />
+                      <label class="form-label" for="name">Site Name</label>
+                    </div>
+                    
+                    <!-- Submit button -->
+                    <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block">Add Site</button>
+                  </form>
                 </div>
               </div>
               
