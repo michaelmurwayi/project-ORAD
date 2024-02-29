@@ -218,8 +218,7 @@
     margin: auto 0;
 }
 .site button{
-    background-color: orange;
-    text-align: center;
+  color: white;
 }
 
 .popup {
@@ -248,6 +247,18 @@
       right: 10px;
       cursor: pointer;
     }
+    .container form label{
+      color: #007bff;
+    }
+    .container form label:hover{
+      color: orange;
+    }
+    
+    .container form select option{
+      border: none;
+    }
+    
+
 </style>
 </head>
 
@@ -288,13 +299,14 @@
         </div>
         <!-- Button to add new site -->
         <div class="site">
-            <button class="btn btn-warning" onclick="togglePopup()"  data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Site</button>
+            <button class="btn btn-outline-warning" onclick="togglePopup()"  data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Site</button>
             <div class="popup" id="popup">
                 <div class="popup-card">
                   <span class="close-btn" onclick="togglePopup()">&times;</span>
                   <form method="POST" action="{% url 'database:sites' %}">
                     {% csrf_token %}
                     <!-- Site Name -->
+                    
                     <div data-mdb-input-init class="form-outline mb-4">
                       <input type="text" id="site_name" name="site_name" class="form-control" />
                       <label class="form-label" for="name">Site Name</label>
@@ -307,46 +319,88 @@
               </div>
               
       </nav>
+      
     <!-- Modal for displaying site details -->
-   
-  <div class="container">
-        <h1>Site QC Documents</h1>
-        <div id="siteList" class="site-list">
-            <!-- Render site cards dynamically -->
-            <!-- Sample site data and form data -->
-            <div class="site-card">
-                <h3></h3>
-                <div class="upload-container">
-                    <form method="post" enctype="multipart/form-data" action="/upload-file/" class="uploadForm">
-                        <!-- CSRF token -->
-                        <input type="hidden" name="csrfmiddlewaretoken" value="your_csrf_token_here">
-                        <input type="file" name="file" class="fileInput" style="display: none;">
-                        <button class="upload-button" type="submit" data-id="1">
-                            <div id="one"></div>
-                            <span>Upload Document</span>
-                        </button>
-                    </form>
-                    <div class="button-container">
-                        <button class="view-button" data-id="1">View Documents</button>
-                    </div>
-                    <div class="documents"></div>
+  <div class="container row">
+        <h1>Orad Projects</h1>
+        <hr />
+        {% for site in sites %}
+        <div class="card text-bg-light m-4" style="max-width: 18rem;" >
+          <div class="card-header">
+            <div class="site_name row">
+              <div class="id row">
+                <div class="col-md-6">
+                  <small>
+                    <b>Site ID</b>
+                    <i class="fa fa-id-card m-2" aria-hidden="true"></i>
+                  </small>
                 </div>
+                <div class="col">
+                  <p>{{ site.pk }}</p>   
+                </div>
+              </div>
             </div>
-            <!-- End of Sample site data -->
-
-            <!-- You can add more site cards here -->
+              
+              <div class="col-md-6">
+                <small>
+                  <b>Site</b>
+                  <i class="fa fa-building-o m-2" aria-hidden="true"></i>
+                </small>
+              </div>
+              <div class="col">
+                <p style="font-size: 12px;">{{ site }}</p>   
+              </div>
+            </div>
+   
+            
+          <div class="card-body">
+            <div class="action row">
+              <div class="col-md-6">
+                <b><small style="font-size: 10px; color: #007bff;">Upload Files</small></b>
+                <form method="post" enctype="multipart/form-data" action="{% url 'database:sites' %}" class="uploadForm">
+                  {% csrf_token %}
+                  <!-- CSRF token -->
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="" >
+                        <select  id="fileType" name="fileType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <option class="dropdown-item" value="" disabled selected></option>
+                          <option class="dropdown-item" value="report">Report</option>
+                          <option class="dropdown-item" value="invoice">Invoice</option>
+                          <option class="dropdown-item" value="pdq">PDQ</option>
+                          <option class="dropdown-item" value="image">Images</option>
+                          <option class="dropdown-item" value="others">Others</option>
+                      </select>
+                      </div>
+                      <input type="text" id="site_id" name="site_id" value="{{ site.id }}" hidden/>
+                      <label for="file">File </label>
+                      <input type="file" id="file" name="file" placeholder="none" class="fileInput" style="display: none;">
+                      <button class="btn btn-sm btn-outline-primary"><i class="fa fa-upload" aria-hidden="true" for="file" type="submit"></i></button>
+                    </div>
+                    </div>
+                    
+              </form>
+              </div>
+              <div class="col-md-6 mt-3">
+                <button class="btn btn-outline-dark">
+                  <small>View files</small>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+        {% endfor %}  
     </div>
 
    
  <!-- Popup card for displaying documents -->
-<div id="popupCard" class="popup-card">
+<!-- <div id="popupCard" class="popup-card">
     <span class="close">&times;</span>
     <div class="popup-content">
         <h2></h2>
         <div id="documentsList"></div>
     </div>
-</div>
+</div> -->
 
 
 {% load static %}
@@ -410,246 +464,7 @@
     <script src="{% static    'js/main.js' %}"></script>
     <script>
     // Sample site data
-const sites = [
-    { id: 1, name: 'ACK ST James Cathedral,Kiambu', documents: [] },
-    { id: 2, name: 'ACK ST Peter Cathedral,Kenol', documents: [] },
-    { id: 3, name: 'ACK Mariiki', documents: [] },
-    { id: 4, name: 'AIC WOTE,Makueni', documents: [] },
-    { id: 5, name: 'ST Joseph W. Catholic', documents: [] },
-    { id: 6, name: 'Mirema Apartments', documents: [] },
-    { id: 7, name: 'Ruiru Mud Block', documents: [] },
-    { id: 8, name: 'R110 Tatu City Maisonnette', documents: [] },
-    { id: 9, name: 'Kamulu Maisonnette', documents: [] },
-    { id: 10, name: 'Kericho Bungalow', documents: [] }
-];
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Add event listeners to all "View Documents" buttons
-    const viewButtons = document.querySelectorAll('.view-button');
-    viewButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const siteId = this.getAttribute('data-id');
-            fetchDocumentsForSite(siteId);
-        });
-    });
-});
-
-
-// Function to display documents in a popup
-function displayDocumentsPopup(documents) {
-    // Populate the popup window with documents
-    const popup = document.getElementById('popupWindow');
-    const documentsContainer = popup.querySelector('.documents');
-    documentsContainer.innerHTML = ''; // Clear previous content
-
-    // Create HTML elements for each document
-    documents.forEach(document => {
-        const documentItem = document.createElement('div');
-        documentItem.textContent = document.name; // Adjust based on your document structure
-        documentsContainer.appendChild(documentItem);
-    });
-
-    // Show the popup window
-    popup.style.display = 'block';
-}
-
-// Function to render the list of sites
-function renderSiteList() {
-    const siteList = document.getElementById('siteList');
-    siteList.innerHTML = ''; // Clear previous content
-
-    sites.forEach(site => {
-        const siteCard = document.createElement('div');
-        siteCard.classList.add('site-card');
-        siteCard.innerHTML = `
-            <h3>${site.name}</h3>
-            <div class="upload-container">
-                <form method="post" enctype="multipart/form-data" action="/upload-file/" class="uploadForm">
-                {% csrf_token %}
-                    <input type="file" name="file" class="fileInput" style="display: none;">
-                    <button class="upload-button" type="button" data-id="${site.id}">
-                        <div id="one"></div>
-                        <span>Upload Document</span>
-                    </button>
-                </form>
-                <div class="button-container">
-                    <button class="view-button" data-id="${site.id}">View Documents</button>
-                    </div>
-                   <div class="documents"></div>
-            </div>
-            <div class="documents"></div>
-        `;
-        siteList.appendChild(siteCard);
-
-          // Add event listeners for view buttons
-    document.querySelectorAll('.view-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const siteId = button.getAttribute('data-id');
-            fetchAndDisplayDocuments(siteId);
-        });
-    });
-
-        // Add event listener to upload button
-        const uploadButton = siteCard.querySelector('.upload-button');
-        uploadButton.addEventListener('click', () => {
-            const fileInput = siteCard.querySelector('.fileInput');
-            fileInput.click();
-        });
-
-        // Add event listener to file input
-        const fileInput = siteCard.querySelector('.fileInput');
-        fileInput.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                const siteId = uploadButton.getAttribute('data-id');
-                uploadDocument(siteId, file);
-            } else {
-                alert('Please select a file to upload.');
-            }
-        });
-    });
-}
-
-// Function to open the upload document modal
-function openUploadModal(siteId) {
-    const modal = document.getElementById('uploadFormModal');
-    const closeButton = modal.querySelector('.close');
-    const uploadForm = modal.querySelector('#uploadForm');
-
-    modal.style.display = 'block';
-
-    // Close the modal when the close button is clicked
-    closeButton.onclick = () => modal.style.display = 'none';
-
-    // Close the modal when the user clicks outside of it
-    window.onclick = (event) => {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    };
-
-    // Submit the upload form
-    uploadForm.onsubmit = (event) => {
-        event.preventDefault();
-        const fileInput = uploadForm.querySelector('#document');
-        const file = fileInput.files[0];
-        if (file) {
-            uploadDocument(siteId, file);
-            modal.style.display = 'none';
-            fileInput.value = ''; // Clear the file input
-        } else {
-            alert('Please select a file to upload.');
-        }
-    };
-}
-document.addEventListener('DOMContentLoaded', function () {
-    // Get the upload buttons and file inputs for each site
-    const uploadButtons = document.querySelectorAll('.upload-button');
-    const fileInputs = document.querySelectorAll('.fileInput');
-    
-    // Add click event listener to each upload button
-    uploadButtons.forEach(uploadButton => {
-        uploadButton.addEventListener('click', function() {
-            // Get the corresponding file input for this site
-            const fileInput = this.parentElement.querySelector('.fileInput');
-            // Trigger click event on the file input
-            fileInput.click();
-        });
-    });
-
-    // Add change event listener to each file input to submit the form when a file is selected
-    fileInputs.forEach(fileInput => {
-        fileInput.addEventListener('change', function() {
-            // Get the corresponding form for this site
-            const uploadForm = this.parentElement;
-            // Submit the form when a file is selected
-            uploadForm.submit();
-        });
-    });
-
-    // Fetch documents for display
-    fetchDocuments();
-});
-
-// Function to fetch documents for a specific site
-function fetchDocumentsForSite(siteId) {
-    fetch(`http://localhost:8000/qc-documents/?site_id=${siteId}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Render the documents in the popup card
-            renderDocumentsInPopup(data);
-        })
-        .catch(error => {
-            console.error('Error fetching documents:', error.message);
-        });
-}
-
-// Function to render documents in the popup card
-function renderDocumentsInPopup(documents) {
-    const documentsList = document.getElementById('documentsList');
-    documentsList.innerHTML = ''; // Clear previous content
-
-    documents.forEach(document => {
-        const documentLink = document.createElement('a');
-        documentLink.href = document.document;
-        documentLink.textContent = document.document_name;
-        documentLink.setAttribute('download', '');
-        
-        const br = document.createElement('br');
-
-        documentsList.appendChild(documentLink);
-        documentsList.appendChild(br);
-    });
-
-    // Display the popup card
-    const popupCard = document.getElementById('popupCard');
-    popupCard.style.display = 'block';
-}
-
-// Event listener for closing the popup card
-document.querySelector('.close').addEventListener('click', function() {
-    document.getElementById('popupCard').style.display = 'none';
-});
-
-// Event listener for "View" button/link in each site card
-document.querySelectorAll('.view-button').forEach(button => {
-    button.addEventListener('click', function() {
-        const siteId = this.getAttribute('data-id');
-        fetchDocumentsForSite(siteId);
-    });
-});
-
-// Function to upload the document
-function uploadDocument(siteId, file) {
-    const site = sites.find(site => site.id === siteId);
-    site.documents.push({ name: file.name, url: URL.createObjectURL(file) });
-    renderDocuments(siteId);
-}
-
-// Function to render documents for a site
-function renderDocuments(siteId) {
-    const siteCard = document.querySelector(`.site-card[data-id="${siteId}"]`);
-    const documentsDiv = siteCard.querySelector('.documents');
-    documentsDiv.innerHTML = ''; // Clear previous documents
-
-    const site = sites.find(site => site.id === siteId);
-    site.documents.forEach(document => {
-        const documentLink = document.createElement('a');
-        documentLink.href = document.url;
-        documentLink.textContent = document.name;
-        documentLink.setAttribute('download', '');
-
-        const br = document.createElement('br');
-
-        documentsDiv.appendChild(documentLink);
-        documentsDiv.appendChild(br);
-    });
-}
 function togglePopup() {
     const popup = document.getElementById('popup');
     popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';

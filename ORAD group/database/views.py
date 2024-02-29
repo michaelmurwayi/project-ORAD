@@ -25,6 +25,9 @@ from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView
 from .models import *
+from django.contrib import messages
+from django.shortcuts import get_object_or_404
+
 
 def register(request):
     if request.method == 'POST':
@@ -176,10 +179,9 @@ class SiteView(TemplateView):
     template_name = 'sites.html'
 
     def get(self,request):
-        context = {
-            "message": ""
-        }
-        return render(request, self.template_name, context)
+        sites = Site.objects.all()
+
+        return render(request, self.template_name, {"sites": sites})
 
     def post(self, request):
         
@@ -197,11 +199,21 @@ class SiteView(TemplateView):
                 # Create the directory
                 os.makedirs(directory_path)
 
+            messages.success(request, 'Site succesfully cleared.')
+
         
-        context = {
-            "message": "Site Successfully Added"
-        }
-        return render(request, self.template_name, context)
+        elif 'file' in request.FILES:
+            file_type = request.POST.get("fileType")
+            site_id = request.POST.get("site_id")
+            files = request.FILES.get("file")
+
+        
+            site = get_object_or_404(Site, id=site_id)
+            document = Document(site=site,file=files,file_type=file_type,uploaded_by=request.user)
+            
+            document.save()
+    
+        return redirect('database:sites')
 
 # @api_view(['POST'])
 # @permission_classes([AllowAny])
