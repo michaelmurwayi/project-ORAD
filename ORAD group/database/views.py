@@ -180,8 +180,12 @@ class SiteView(TemplateView):
 
     def get(self,request):
         sites = Site.objects.all()
-
-        return render(request, self.template_name, {"sites": sites})
+        # Get all documents in db 
+        # Create folders by filtering distinct file types
+        documents = Document.objects.all()
+        folders = documents.values('file_type').distinct()
+        
+        return render(request, self.template_name, {"sites": sites, "folders":folders})
 
     def post(self, request):
         
@@ -189,16 +193,6 @@ class SiteView(TemplateView):
             site_name = request.POST["site_name"]
             site = Site(name=site_name)
             site.save()
-
-            # create folder for site in media directory
-            site_id = site.pk
-            directory_path = f"{os.path.join(settings.MEDIA_ROOT)}site/ {site_id}"
-
-            # Check if the directory already exists
-            if not os.path.exists(directory_path):
-                # Create the directory
-                os.makedirs(directory_path)
-
             messages.success(request, 'Site succesfully cleared.')
 
         
