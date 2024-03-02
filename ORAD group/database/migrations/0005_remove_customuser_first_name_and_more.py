@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='customuser',
             name='date_joined',
-            field=models.IntegerField(default=django.utils.timezone.now),
+            field=models.DateTimeField(default=django.utils.timezone.now),
         ),
         migrations.AlterField(
             model_name='customuser',
