@@ -280,6 +280,17 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 
+  .filesDiv {
+    display: none;
+    background-color: #f0f0f0;
+    position: fixed;
+    top: 25vh;
+    right: 10vh;
+    height: 70vh;
+    z-index: 1;
+    width: 30vw;
+    /* overflow: auto; */
+}
 
 </style>
 </head>
@@ -321,7 +332,7 @@
         </div>
         <!-- Button to add new site -->
         <div class="site">
-            <button class="btn btn-outline-dark" onclick="toggleSitePopup()"  data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Site</button>
+            <button class="btn btn-outline-primary" onclick="toggleSitePopup()"  data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Site</button>
             <div class="addsitepopup" id="addsitepopup">
                 <div class="addsitepopup-card">
                   <span class="close-btn" onclick="toggleSitePopup()">&times;</span>
@@ -373,12 +384,10 @@
                 <p style="font-size: 12px;">{{ site }}</p>   
               </div>
             </div>
-   
-            
           <div class="card-body">
             <div class="action row">
               <div class="col-md-6">
-                <b><small style="font-size: 10px; color: #007bff;">Upload Files</small></b>
+                <b><small style="font-size: 10px; color: #007bff; ">Upload Files</small></b>
                 <form method="post" enctype="multipart/form-data" action="{% url 'database:sites' %}" class="uploadForm">
                   {% csrf_token %}
                   <!-- CSRF token -->
@@ -404,13 +413,39 @@
               </form>
               </div>
               <div class="col-md-6 mt-3">
-                <button class="btn btn-outline-dark" onclick="toggleFilePopup()"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button class="btn btn-secondary" onclick="toggleFilePopup()"  data-bs-toggle="modal" data-bs-target="#exampleModal">
                   <small>View files</small>
                 </button>
                 <div class="filespopup" id="filespopup">
                   <div class="filespopup-card">
-                    <span class="close-btn" onclick="toggleFilePopup()">&times;</span>
+                    <span class="close-btn" style="color: red;" onclick="toggleFilePopup()">&times;</span>
                     
+                    {% for folder in folders %}
+                    <div class="folder" style="border-radius: 0px 0px 25px 25px;">
+                      <div class="folder-icon col-md-4">
+                        <i class="fa fa-folder-open-o" style="color: #007bff; font-size: 30px; transition: background-color 0.3s ease;" aria-hidden="true"></i>
+                      </div>
+                      <div class="folder-name dropdown col-md-8" id="{{ folder.file_type }}">
+                         <!-- Dropdown content (table) -->
+                         <button class="btn btn-secondary" onclick="toggleFiles('{{folder.file_type}}')" id="{{folder.file_type}}">{{ folder.file_type}}</button>
+                         <div class="filesDiv card" id="filesDiv" style="overflow-y: scroll;" >
+                          <div class="card-header">
+                            <p id="file-header">Reports</p>
+                          </div>
+                          <div class="card-body">
+                            <ul>
+                             {% for name in documents_name %} 
+                             <li style="font-size: 8px;" class="col"> <i class="fa-folder-open-o"></i> {{ name }}</li>
+                             <hr>
+                             {% endfor %}
+                            </ul>
+                            
+                          </div>
+                          </div>
+                          <hr>
+                        </div>
+                    </div>
+                    {% endfor %}
                   </div>
                 </div>
               </div>
@@ -431,6 +466,17 @@ function toggleSitePopup() {
 function toggleFilePopup() {
   const popup = document.getElementById('filespopup');
   popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+}
+function toggleFiles(file_type) {
+  const filesDiv = document.getElementById('filesDiv');
+  
+  // Get the paragraph element by its id
+  var header = document.getElementById('file-header');
+
+  // Set the new value
+  header.textContent = file_type
+  // Toggle the display property of the div
+  filesDiv.style.display = filesDiv.style.display === 'flex' ? 'none' : 'flex';
 }
 </script>
 

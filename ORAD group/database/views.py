@@ -179,13 +179,17 @@ class SiteView(TemplateView):
     template_name = 'sites.html'
 
     def get(self,request):
+        documents_name = [] 
         sites = Site.objects.all()
         # Get all documents in db 
         # Create folders by filtering distinct file types
         documents = Document.objects.all()
         folders = documents.values('file_type').distinct()
+        for document in documents:
+            documents_name.append(document.file.name.split('/')[1])
         
-        return render(request, self.template_name, {"sites": sites, "folders":folders})
+        import ipdb;ipdb.set_trace()
+        return render(request, self.template_name, {"sites": sites, "folders":folders, "documents_name":documents_name})
 
     def post(self, request):
         
