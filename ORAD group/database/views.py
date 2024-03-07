@@ -188,7 +188,6 @@ class SiteView(TemplateView):
         for document in documents:
             documents_name.append(document.file.name.split('/')[1])
         
-        import ipdb;ipdb.set_trace()
         return render(request, self.template_name, {"sites": sites, "folders":folders, "documents_name":documents_name})
 
     def post(self, request):

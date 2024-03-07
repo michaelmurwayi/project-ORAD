@@ -336,7 +336,7 @@
             <div class="addsitepopup" id="addsitepopup">
                 <div class="addsitepopup-card">
                   <span class="close-btn" onclick="toggleSitePopup()">&times;</span>
-                  <form method="POST" action="{% url 'database:sites' %}">
+                  <form method="POST" action="{% url 'sites' %}">
                     {% csrf_token %}
                     <!-- Site Name -->
                     
@@ -388,7 +388,7 @@
             <div class="action row">
               <div class="col-md-6">
                 <b><small style="font-size: 10px; color: #007bff; ">Upload Files</small></b>
-                <form method="post" enctype="multipart/form-data" action="{% url 'database:sites' %}" class="uploadForm">
+                <form method="post" enctype="multipart/form-data" action="{% url 'sites' %}" class="uploadForm">
                   {% csrf_token %}
                   <!-- CSRF token -->
                   <div class="row">
