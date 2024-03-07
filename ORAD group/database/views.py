@@ -23,6 +23,10 @@ from django.conf import settings
 from django.http import JsonResponse, HttpResponseNotFound, FileResponse
 from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_protect
+from django.views.generic import TemplateView
+from .models import *
+from django.contrib import messages
+from django.shortcuts import get_object_or_404
 
 
 def register(request):
@@ -136,16 +140,6 @@ def qc_document(request):
         # Return the serialized documents as JSON response
         return JsonResponse(serialized_documents, safe=False)
       
-      
-
-
-
-
-
-
-
-
-
 
 class CustomUserViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
@@ -181,9 +175,42 @@ def project_view(request):
     context={}
     return render (request, 'projects.html', context)
 
-def sites_view(request):
-    context={}
-    return render (request, 'sites.html', context)
+class SiteView(TemplateView):
+    template_name = 'sites.html'
+
+    def get(self,request):
+        documents_name = [] 
+        sites = Site.objects.all()
+        # Get all documents in db 
+        # Create folders by filtering distinct file types
+        documents = Document.objects.all()
+        folders = documents.values('file_type').distinct()
+        for document in documents:
+            documents_name.append(document.file.name.split('/')[1])
+        
+        return render(request, self.template_name, {"sites": sites, "folders":folders, "documents_name":documents_name})
+
+    def post(self, request):
+        
+        if 'site_name' in request.POST:
+            site_name = request.POST["site_name"]
+            site = Site(name=site_name)
+            site.save()
+            messages.success(request, 'Site succesfully cleared.')
+
+        
+        elif 'file' in request.FILES:
+            file_type = request.POST.get("fileType")
+            site_id = request.POST.get("site_id")
+            files = request.FILES.get("file")
+
+        
+            site = get_object_or_404(Site, id=site_id)
+            document = Document(site=site,file=files,file_type=file_type,uploaded_by=request.user)
+            
+            document.save()
+    
+        return redirect('database:sites')
 
 
 class PostViewSet(viewsets.ModelViewSet):
