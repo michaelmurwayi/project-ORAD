@@ -1,5 +1,5 @@
 #  use an official python runtime as a parent image
-FROM python: 3.8
+FROM python:3.11.6
 
 # Set environment variables
 ENV PYTHONDOWNWRITEBYTECODE 1
