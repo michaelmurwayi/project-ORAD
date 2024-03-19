@@ -270,11 +270,14 @@
           
           <ul class="nav no-search">
             <li class="nav-item"><a href="#">Home</a></li>
-            <li class="nav-item"><a href="#">Site</a></li>
+            <li class="nav-item"><a href="{% url 'sites' %}">Site</a></li>
             <li class="nav-item"><a href="#">Documents</a></li>
-            <li class="nav-item"><a href="#">Account</a></li>
-            
-            
+            <select name="cars" class="btn btn-primary btn-sm" id="cars">
+              <option value="volvo"  disabled selected hidden ><small>Account</small></option>
+              <option class="list-group-item list-group-item-action ripple" value="saab" ><a href="{%  url 'login' %}">Login</a></option>
+              <option class="list-group-item list-group-item-action" value="mercedes" href="{% url 'logout' %}">Logout</option>
+            </select>
+
           </ul>
         </nav>
         </div>
