@@ -83,6 +83,7 @@
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    overflow-x: hidden;
 }
 
 .container {
@@ -398,8 +399,8 @@
                     <i class="fa fa-id-card m-2" aria-hidden="true"></i>
                   </small>
                 </div>
-                <div class="col">
-                  <p>{{ site.pk }}</p>   
+                <div class="col-md-6 card-body">
+                    <p>{{ site.pk }}</p>   
                 </div>
               </div>
             </div>
@@ -410,21 +411,21 @@
                   <i class="fa fa-building-o m-2" aria-hidden="true"></i>
                 </small>
               </div>
-              <div class="col">
-                <p style="font-size: 12px;">{{ site }}</p>   
+              <div class="col-md-6">
+                <b style="font-size: 12px;">{{ site }}</b>   
               </div>
             </div>
           <div class="card-body">
             <div class="action row">
               <div class="col-md-6">
-                <b><small style="font-size: 10px; color: #007bff; ">Upload Files</small></b>
+                <b><small style="font-size: 10px; color: black ">Upload Files</small></b>
                 <form method="post" enctype="multipart/form-data" action="{% url 'sites' %}" class="uploadForm">
                   {% csrf_token %}
                   <!-- CSRF token -->
                   <div class="row">
                     <div class="col-md-6">
-                      <div class="" >
-                        <select  id="fileType" name="fileType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <input type="text" id="site_id" name="site_id" value="{{ site.id }}" hidden/>
+                        <select  id="fileType" name="fileType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" required>
                           <option class="dropdown-item" value="" disabled selected></option>
                           <option class="dropdown-item" value="report">Report</option>
                           <option class="dropdown-item" value="invoice">Invoice</option>
@@ -432,11 +433,10 @@
                           <option class="dropdown-item" value="image">Images</option>
                           <option class="dropdown-item" value="others">Others</option>
                       </select>
-                      </div>
-                      <input type="text" id="site_id" name="site_id" value="{{ site.id }}" hidden/>
+                    
                       <label for="file">File </label>
-                      <input type="file" id="file" name="file" placeholder="none" class="fileInput" style="display: none;">
-                      <button class="btn btn-sm btn-outline-primary"><i class="fa fa-upload" aria-hidden="true" for="file" type="submit"></i></button>
+                      <input type="file" id="file" name="file" placeholder="none" class="fileInput" style="display: none;" required>
+                      <button class="btn btn-sm btn-outline-warning"><i class="fa fa-upload" aria-hidden="true" for="file" type="submit" style="color: rgba(233,191,16);" ></i></button>
                     </div>
                     </div>
                     
@@ -463,13 +463,11 @@
                             <p id="file-header">Reports</p>
                           </div>
                           <div class="card-body">
+                            {% for file in files%}
                             <ul>
-                             {% for file in files %} 
-                             <li style="font-size: 8px;" class="col"> <i class="fa-folder-open-o"></i> {{ file.file_name }}</li>
-                             <hr>
-                             {% endfor %}
+                              <li class=""><a href="{% url 'serve_pdf' filename=file.filename %}" >{{file.filename}}</a> </li>
                             </ul>
-                            
+                            {% endfor %}
                           </div>
                           </div>
                           <hr>

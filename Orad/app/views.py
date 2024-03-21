@@ -54,19 +54,19 @@ def register(request):
 # from django.shortcuts import render, redirect
 # from django.contrib.auth import authenticate, login
 
-def login(request):
-    if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
-        print(email,password)
-        user = authenticate(request, email=email, password=password)
-        print(user)
-        if user is not None:
-            internal_login(request, user)
-            return redirect('home')  # Redirect to home page or any other page after successful login
+# def login(request):
+#     if request.method == 'POST':
+#         email = request.POST['email']
+#         password = request.POST['password']
+#         print(email,password)
+#         user = authenticate(request, email=email, password=password)
+#         print(user)
+#         if user is not None:
+#             internal_login(request, user)
+#             return redirect('home')  # Redirect to home page or any other page after successful login
         
-        return render(request, 'login.html', {'error_message': 'Invalid username or password.'}) 
-    return render(request, 'login.html')
+#         return render(request, 'login.html', {'error_message': 'Invalid username or password.'}) 
+#     return render(request, 'login.html')
 # logout(request)
 # return HttpResponseRedirect('/login/')
 
@@ -96,7 +96,8 @@ def upload_file(request):
 
 def serve_pdf(request, filename):
     # Serve the PDF file to the client
-    pdf_file_path = os.path.join(settings.MEDIA_ROOT, 'pdf', filename)
+    import ipdb;ipdb.set_trace
+    pdf_file_path = os.path.join(settings.MEDIA_ROOT, 'documents', filename)
     if os.path.exists(pdf_file_path):
         with open(pdf_file_path, 'rb') as pdf_file:
             response = HttpResponse(pdf_file.read(), content_type='application/pdf')
@@ -186,11 +187,13 @@ class SiteView(TemplateView):
         # Create folders by filtering distinct file types
         documents = Document.objects.all()
         folders = documents.values('file_type').distinct()
+        # import ipdb;ipdb.set_trace()
         for document in documents:
+            
             file = {
                 "file_type" : document.file_type,
-                "file": document.file,
-                "file_name": document.file.name.split('/')[1]
+                "file": serve_pdf(request, document.file.name),
+                "filename": document.file.name.split('/')[1]
             }
             files.append(file)
 
@@ -204,8 +207,7 @@ class SiteView(TemplateView):
             site.save()
             messages.success(request, 'Site succesfully cleared.')
 
-        elif 'file' in request.FILES:
-            import ipdb;ipdb.set_trace()    
+        elif 'file' in request.FILES:    
             file_type = request.POST.get("fileType")
             site_id = request.POST.get("site_id")
             files = request.FILES.get("file")
