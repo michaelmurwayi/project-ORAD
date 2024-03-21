@@ -427,16 +427,16 @@
                         <input type="text" id="site_id" name="site_id" value="{{ site.id }}" hidden/>
                         <select  id="fileType" name="fileType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" required>
                           <option class="dropdown-item" value="" disabled selected></option>
-                          <option class="dropdown-item" value="report">Report</option>
-                          <option class="dropdown-item" value="invoice">Invoice</option>
-                          <option class="dropdown-item" value="pdq">PDQ</option>
-                          <option class="dropdown-item" value="image">Images</option>
+                          <option class="dropdown-item" value="reports">Report</option>
+                          <option class="dropdown-item" value="invoices">Invoice</option>
+                          <option class="dropdown-item" value="pdq's">PDQ</option>
+                          <option class="dropdown-item" value="images">Images</option>
                           <option class="dropdown-item" value="others">Others</option>
                       </select>
                     
                       <label for="file">File </label>
                       <input type="file" id="file" name="file" placeholder="none" class="fileInput" style="display: none;" required>
-                      <button class="btn btn-sm btn-outline-warning"><i class="fa fa-upload" aria-hidden="true" for="file" type="submit" style="color: rgba(233,191,16);" ></i></button>
+                      <button class="btn btn-sm btn-outline-dark"><i class="fa fa-upload" aria-hidden="true" for="file" type="submit" style="color: rgba(233,191,16);" ></i></button>
                     </div>
                     </div>
                     
@@ -448,10 +448,11 @@
                 </button>
                 <div class="filespopup" id="filespopup">
                   <div class="filespopup-card">
-                    <span class="close-btn" style="color: red;" onclick="toggleFilePopup()">&times;</span>
+                    <span class="close-btn" style="color: red; display: flex;" id="closeFile" onclick="closeFiles()">&times;</span>
                     
                     {% for folder in folders %}
                     <div class="folder" style="border-radius: 0px 0px 25px 25px;">
+                      <span class="close" style="color: red; display: flex; font-size: 20px;" id="closeFile" onclick="closeFolder()">&times;</span>
                       <div class="folder-icon col-md-4">
                         <i class="fa fa-folder-open-o" style="color: #007bff; font-size: 30px; transition: background-color 0.3s ease;" aria-hidden="true"></i>
                       </div>
@@ -464,8 +465,8 @@
                           </div>
                           <div class="card-body">
                             {% for file in files%}
-                            <ul>
-                              <li class=""><a href="{% url 'serve_pdf' filename=file.filename %}" >{{file.filename}}</a> </li>
+                            <ul class="list-group list-group-light list-group-small" >
+                              <li class="list-group-item list-group-item-action"><a href="{% url 'serve_pdf' filename=file.filename %}" style="font-family: Arial, Helvetica, sans-serif; font-size: 10px;" >{{file.filename}}</a> </li>
                             </ul>
                             {% endfor %}
                           </div>
@@ -494,21 +495,39 @@ function toggleSitePopup() {
 function toggleFilePopup() {
   const popup = document.getElementById('filespopup');
   popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
-}
+
+  }
 function toggleFiles(file_type, documents, site_id) {
   const filesDiv = document.getElementById('filesDiv');
-  console.log(documents, site_id)
   // Get the paragraph element by its id
   var header = document.getElementById('file-header');
 
+  
+  const closeFile = document.getElementById('closeFile')
+  closeFile.style.display = filesDiv.style.display === 'flex' ? 'none' : 'flex';
+
   // Set the new value
-  header.textContent = file_type
+  header.textContent = file_type.toUpperCase()
   // Toggle the display property of the div
   filesDiv.style.display = filesDiv.style.display === 'flex' ? 'none' : 'flex';
 
   
+}
+function closeFiles(){
+  const filesDiv = document.getElementById('filesDiv');
+  filesDiv.style.display = filesDiv.style.display === 'flex' ? 'none' : 'none';
+  
+  const closeFile = document.getElementById('closeFile')
+  closeFile.style.display = filesDiv.style.display === 'flex' ? 'none' : 'none';
 
 }
+
+function closeFolder() {
+  const popup = document.getElementById('filespopup');
+  popup.style.display = popup.style.display === 'flex' ? 'none' : 'none';
+
+  }
+
 </script>
 
 </body>
