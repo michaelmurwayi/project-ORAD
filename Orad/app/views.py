@@ -54,25 +54,6 @@ def register(request):
 # from django.shortcuts import render, redirect
 # from django.contrib.auth import authenticate, login
 
-# def login(request):
-#     if request.method == 'POST':
-#         email = request.POST['email']
-#         password = request.POST['password']
-#         print(email,password)
-#         user = authenticate(request, email=email, password=password)
-#         print(user)
-#         if user is not None:
-#             internal_login(request, user)
-#             return redirect('home')  # Redirect to home page or any other page after successful login
-        
-#         return render(request, 'login.html', {'error_message': 'Invalid username or password.'}) 
-#     return render(request, 'login.html')
-# logout(request)
-# return HttpResponseRedirect('/login/')
-
-
-def logout(request):
-    return redirect("login")
 
 @csrf_protect
 def upload_file(request):
