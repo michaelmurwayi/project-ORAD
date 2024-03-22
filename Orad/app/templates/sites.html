@@ -316,7 +316,7 @@
 </head>
 
 <body>
-<div class="all-content-wrappe">
+<div class="">
     <nav class="navbar navbar-expand-lg navbar-dark bg-black">
         <div class="container-fluid row" style="display: flex; justify-content: left;">
           <div class="logo col-md-2">
@@ -441,7 +441,7 @@
                     
                       <label for="file">File </label>
                       <input type="file" id="file" name="file" placeholder="none" class="fileInput" style="display: none;" required>
-                      <button class="btn btn-sm btn-outline-dark"><i class="fa fa-upload" aria-hidden="true" for="file" type="submit" style="color: rgba(233,191,16);" ></i></button>
+                      <button class="btn btn-sm btn-dark"><i class="fa fa-upload" aria-hidden="true" for="file" type="submit" style="color: rgba(233,191,16);" ></i></button>
                     </div>
                     </div>
                     
@@ -457,6 +457,7 @@
                     
                     {% for folder in folders %}
                     <div class="folder" style="border-radius: 0px 0px 25px 25px;">
+                      <p> {{ site }}</p>
                       <span class="close" style="color: red; display: flex; font-size: 20px;" id="closeFile" onclick="closeFolder()">&times;</span>
                       <div class="folder-icon col-md-4">
                         <i class="fa fa-folder-open-o" style="color: #007bff; font-size: 30px; transition: background-color 0.3s ease;" aria-hidden="true"></i>
@@ -470,9 +471,12 @@
                           </div>
                           <div class="card-body">
                             {% for file in files%}
+                            {% if file.site_id == site.pk %}
+                            {{ site }}
                             <ul class="list-group list-group-light list-group-small" >
                               <li class="list-group-item list-group-item-action"><a href="{% url 'serve_pdf' filename=file.filename %}" style="font-family: Arial, Helvetica, sans-serif; font-size: 10px;" >{{file.filename}}</a> </li>
                             </ul>
+                            {% endif %}
                             {% endfor %}
                           </div>
                           </div>

@@ -167,7 +167,7 @@
 		background-position: 0% 50%
 	}
     }
-    .dropdown {
+.dropdown {
   position: relative;
   display: inline-block;
   border: none;
@@ -175,17 +175,19 @@
 
 .dropdown-content {
   display: none;
-  position: absolute;
+  position: "absolute";
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   padding: 12px 16px;
-  z-index: 1;
+  z-index: 9999;
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
+  
 }
+
 
  /* CSS for popup div */
  .popup {
@@ -226,10 +228,8 @@
 </head>
 
 <body>
- <div class="">
-     <!-- Sidebar -->
+ 
   <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-black col-md-3">
-    <div class="position-sticky">
       <div class="list-group list-group-flush mx-3 mt-4">
         <div class="logo" style="display: flex; justify-content: center;" >
             <img src="/static/img/logo/logo1.jpeg"  />
@@ -245,7 +245,7 @@
           <i class="fas fa-home fa-fw me-3"></i><span>Home</span>
         </a>
         <div class="dropdown">
-            <a href="#" class="list-group-item dropdown list-group-item-action py-2 ripple mt-4"
+            <a href="#" class="list-group-item  list-group-item-action py-2 ripple mt-4"
               ><i class="fas fa-file fa-fw me-3"></i><span>All Files</span></a
             >
             <div class="dropdown-content">
@@ -261,28 +261,25 @@
           </div>
         
       </div>
-    </div>
   </nav>
   <!-- Sidebar -->
-  <div class="container-fluid">
-    <div class="nav-wrapper">
+ 
         <div class="grad-bar"></div>
-        <nav class="navbar">
-          
-          <ul class="nav no-search">
-            <li class="nav-item"><a href="#">Home</a></li>
-            <li class="nav-item"><a href="{% url 'sites' %}">Site</a></li>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-black">     
+          <div class="urls" >
+            <ul class="nav no-search">
+              <li class="nav-item"><a href="{% url 'home' %}" style="color: rgb(163, 161, 161);">Home</a></li>
+              <li class="nav-item"><a href="{% url 'sites' %}" style="color: rgb(163, 161, 161);">Site</a></li>
              
-            <select name="cars" class="btn btn-primary btn-sm mb-2" id="cars">
-              <option value="volvo"  disabled selected hidden ><small>Account</small></option>
-              <option class="list-group-item list-group-item-action ripple" value="saab" ><a href="{%  url 'login' %}">Login</a></option>
-              <option class="list-group-item list-group-item-action" value="mercedes" href="{% url 'logout' %}">Logout</option>
-            </select>
-
-          </ul>
+              <li class="m-1"><form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-sm btn-danger"  type="submit">Logout</button>
+            </form></li>
+  
+            </ul>
+                
         </nav>
-        </div>
-        
+               
       <div class="row folders" style="margin-top: 0vh;">
         <div class="card col-md-3 m-2 ml-2" id="Reports" onclick="togglePopup(this.id)">
             <div class="card-body">

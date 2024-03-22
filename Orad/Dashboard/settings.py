@@ -84,10 +84,10 @@ WSGI_APPLICATION = 'Dashboard.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'oradb',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'orad123',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

@@ -51,8 +51,6 @@ def register(request):
     #     return render(request, "register.html")
     return render(request, 'register.html')
 
-# from django.shortcuts import render, redirect
-# from django.contrib.auth import authenticate, login
 
 
 @csrf_protect
@@ -168,12 +166,10 @@ class SiteView(TemplateView):
         # Create folders by filtering distinct file types
         documents = Document.objects.all()
         folders = documents.values('file_type').distinct()
-        # import ipdb;ipdb.set_trace()
         for document in documents:
-            
             file = {
+                "site_id": document.site_id,
                 "file_type" : document.file_type,
-                "file": serve_pdf(request, document.file.name),
                 "filename": document.file.name.split('/')[1]
             }
             files.append(file)
